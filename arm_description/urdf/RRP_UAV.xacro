@@ -15,7 +15,7 @@
   <xacro:property name="toe_length" value="0.03"/>
   <xacro:property name="foot_length" value="0.04"/>
   <xacro:property name="leg_length" value="0.04"/>
-  <xacro:property name="arm_length" value="0.03"/>
+  <xacro:property name="arm_length" value="0.10"/>
   <xacro:property name="hand_length" value="0.04"/>
   <xacro:property name="finger_length" value="0.03"/>
 
@@ -161,20 +161,20 @@
 
   <!-- Uncomment for RViz with fake joints -->
   <!-- World frame (for Gazebo) -->
-  <link name="world"/>
+  <!--link name="world"/-->
 
   <!-- Uncomment for RViz with fake joints -->
   <!-- Arm fixed to world frame  -->
-  <joint name="world_foot_joint" type="fixed">
+  <!--joint name="world_foot_joint" type="fixed">
     <parent link="world"/>
     <child link="toe"/>
-  </joint>
+  </joint-->
 
   <!-- Joints Chain -->
   <xacro:arm_joint parent="toe"     child="foot"    axis="0 0 1" dist="${toe_length}"   joint_type="revolute"   lower="${-PI}"      upper="${PI}"   />
   <xacro:arm_joint parent="foot"    child="leg"     axis="1 0 0" dist="${foot_length}"  joint_type="revolute"   lower="${-PI/2}"    upper="${PI/2}" />
   <xacro:arm_joint parent="leg"     child="arm"     axis="0 0 1" dist="${leg_length}"   joint_type="prismatic"  lower="0"           upper="2"       />
-  <xacro:arm_joint parent="arm"     child="hand"    axis="0 0 1" dist="${arm_length}"   joint_type="fixed"      lower="0"           upper="0"       />
+  <xacro:arm_joint parent="arm"     child="hand"    axis="0 0 1" dist="${arm_length}"   joint_type="revolute"   lower="${-PI/2}"    upper="${PI/2}" />
   <xacro:arm_joint parent="hand"    child="finger"  axis="1 0 0" dist="${hand_length}"  joint_type="revolute"   lower="${-PI/2}"    upper="${PI/2}" />
 
   <!-- End effector -->
