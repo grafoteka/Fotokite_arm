@@ -1,0 +1,17 @@
+add_executable(move_group_interface_tutorial src/move_group_interface_tutorial.cpp)
+add_executable(move_fotokite src/move_fotokite.cpp)
+add_executable(fotokite_waypoint src/fotokite_waypoint.cpp)
+add_executable(fotokite_move_joint src/fotokite_move_joint.cpp)
+add_executable(fotokite_move_path src/fotokite_move_path.cpp)
+
+target_link_libraries(move_group_interface_tutorial ${catkin_LIBRARIES} ${Boost_LIBRARIES})
+target_link_libraries(move_fotokite ${catkin_LIBRARIES} ${Boost_LIBRARIES})
+target_link_libraries(fotokite_waypoint ${catkin_LIBRARIES} ${Boost_LIBRARIES})
+target_link_libraries(fotokite_move_joint ${catkin_LIBRARIES} ${Boost_LIBRARIES})
+target_link_libraries(fotokite_move_path ${catkin_LIBRARIES} ${Boost_LIBRARIES})
+
+install(TARGETS move_group_interface_tutorial DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION})
+install(TARGETS move_fotokite DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION})
+install(TARGETS fotokite_waypoint DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION})
+install(TARGETS fotokite_move_joint DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION})
+install(TARGETS fotokite_move_path DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION})
