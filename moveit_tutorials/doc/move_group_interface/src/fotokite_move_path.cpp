@@ -17,7 +17,26 @@
 
 #include <moveit_visual_tools/moveit_visual_tools.h>
 
-// Beguin program
+// File openning
+#include <iostream>
+#include <fstream>
+
+class WaypointWithTime {
+ public:
+  WaypointWithTime()
+      : waiting_time(0), yaw(0.0) {
+  }
+
+  WaypointWithTime(double t, float x, float y, float z, float _yaw)
+      : position(x, y, z), yaw(_yaw), waiting_time(t) {
+  }
+
+  Eigen::Vector3d position;
+  double yaw;
+  double waiting_time;
+};
+
+// Begin program
 int main(int argc, char** argv)
 {
   ros::init(argc, argv, "move_group_interface_tutorial");
@@ -94,23 +113,22 @@ int main(int argc, char** argv)
   target_pose_3.position.z    =  1.0;
 
   geometry_msgs::Pose target_pose_4;
-  target_pose_4.orientation.w = 1.0;
-  target_pose_4.position.x    = target_pose_1.position.x;
-  target_pose_4.position.y    = target_pose_1.position.y;
-  target_pose_4.position.z    = target_pose_1.position.z;
+  target_pose_4.orientation.w =  1.0;
+  target_pose_4.position.x    = -1.0;
+  target_pose_4.position.y    =  1.0;
+  target_pose_4.position.z    =  1.0;
 
-  move_group.setPoseTarget(target_pose_1);
-
-
+  //move_group.setPoseTarget(target_pose_1);
 
   // Visualize the goal
   // ^^^^^^^^^^^^^^^^^^
   // This is for visualize the target_pose1.
   // I think that is better to know where it has to go, before it plan the motion
-  ROS_INFO_NAMED("tutorial", "Visualizing plan 1 as trajectory line"); // There is not trajectory show
+  ROS_INFO_NAMED("4 points path", "Visualizing the trajectory line"); // There is not trajectory show
   visual_tools.publishAxisLabeled(target_pose_1, "pose1");
-  visual_tools.publishText(text_pose, "Pose Goal", rvt::WHITE, rvt::XLARGE);
-  //visual_tools.publishTrajectoryLine(my_plan.trajectory_, joint_model_group);
+  visual_tools.publishAxisLabeled(target_pose_2, "pose2");
+  visual_tools.publishAxisLabeled(target_pose_3, "pose3");
+  visual_tools.publishAxisLabeled(target_pose_4, "pose4");
   visual_tools.trigger();
 
   visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window to show the motion");
@@ -121,6 +139,86 @@ int main(int argc, char** argv)
 
   bool success = (move_group.plan(my_plan) == moveit::planning_interface::MoveItErrorCode::SUCCESS);
   ROS_INFO_NAMED("tutorial", "Visualizing plan 1 (pose goal) %s", success ? "" : "FAILED");
+
+  std::vector<geometry_msgs::Pose> waypoints;
+  waypoints.push_back(target_pose_1);
+  waypoints.push_back(target_pose_2);
+  waypoints.push_back(target_pose_3);
+  waypoints.push_back(target_pose_4);
+
+  // Specify the Cartesian path to be interpolated of 1 cm (max step in Cartesian translation = 0.01)
+  // Jump threshold as 0.0 -> disabling it. (this is not sure for real robots)
+  moveit_msgs::RobotTrajectory trajectory;
+  const double jump_threshold = 0.0;
+  const double eef_step = 0.01;
+  double fraction = move_group.computeCartesianPath(waypoints, eef_step, jump_threshold, trajectory);
+  ROS_INFO_NAMED("tutorial", "Visualizing plan 4 (Cartesian path) (%.2f%% acheived)", fraction * 100.0);
+
+  /* *
+   * From ETHZ-AZL
+   * */
+
+  //trajectory_msgs::MultiDOFJointTrajectory trajectory_msg;
+
+
+  //////////
+
+  // Visualize the plan in RViz
+  visual_tools.deleteAllMarkers();
+  visual_tools.publishText(text_pose, "Joint Space Goal", rvt::WHITE, rvt::XLARGE);
+  visual_tools.publishPath(waypoints, rvt::LIME_GREEN, rvt::SMALL); // This is the trajectory
+
+  std::size_t size_trajectory = trajectory.joint_trajectory.points.size();
+          //path_points.joint_trajectory.points.size();
+  ROS_INFO("Trajectory size = %d", size_trajectory);
+
+  int count = 0;
+  while (count < 1)
+     {
+      count++;
+
+      moveit_msgs::RobotTrajectory path_points; // Puntos de la trajectoria
+      path_points = trajectory;
+
+      //std::vector<trajectory_msgs::MultiDOFJointTrajectoryPoint> trajectory_points;
+
+      std::stringstream ss;
+
+      for (unsigned i=0; i<size_trajectory; i++)
+      {
+        ss << "point_index: " << i << std::endl
+           << "positions: "
+           << "[" << path_points.joint_trajectory.points[i].positions[6]
+           << "," << path_points.joint_trajectory.points[i].positions[6]
+           << "," << path_points.joint_trajectory.points[i].positions[6]
+           //<< "," << path_points.joint_trajectory.points[i].positions[3]
+           //<< "," << path_points.joint_trajectory.points[i].positions[4]
+           //<< "," << path_points.joint_trajectory.points[i].positions[5]
+           << "]" << std::endl;
+      }
+
+      std::ofstream outfile ("/home/crasar/points.txt",std::ios::app);
+      if(!outfile.is_open())
+      {
+        ROS_INFO("open failed");
+      }
+      else
+      {
+          ROS_INFO("File open");
+          outfile<<"trajectory"<<count<<std::endl;
+          outfile<<path_points.joint_trajectory.joint_names[6]<<std::endl;
+                   //multi_dof_joint_trajectory.joint_names[0]<<std::endl;
+          outfile<<ss.str()<<std::endl;
+          outfile.close();
+      }
+    }
+
+  for (std::size_t i = 0; i < waypoints.size(); ++i)
+  {
+    // Iconos de los ejes de coordenadas de cada target_pose
+    visual_tools.publishAxisLabeled(waypoints[i], "pt" + std::to_string(i), rvt::SMALL);
+  }
+  visual_tools.trigger();
 
   // I don't know what this do
   //visual_tools.publishTrajectoryLine(my_plan.trajectory_, joint_model_group);
