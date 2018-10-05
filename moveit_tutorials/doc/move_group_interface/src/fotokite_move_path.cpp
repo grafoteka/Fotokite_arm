@@ -154,12 +154,7 @@ int main(int argc, char** argv)
   double fraction = move_group.computeCartesianPath(waypoints, eef_step, jump_threshold, trajectory);
   ROS_INFO_NAMED("tutorial", "Visualizing plan 4 (Cartesian path) (%.2f%% acheived)", fraction * 100.0);
 
-  /* *
-   * From ETHZ-AZL
-   * */
-
-  //trajectory_msgs::MultiDOFJointTrajectory trajectory_msg;
-
+  float variable = trajectory.multi_dof_joint_trajectory.points.at(0).transforms[0].translation.z;
 
   //////////
 
