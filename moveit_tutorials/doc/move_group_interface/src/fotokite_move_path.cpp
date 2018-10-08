@@ -21,6 +21,9 @@
 #include <iostream>
 #include <fstream>
 
+// Get data from MultiDOF
+#include <eigen_conversions/eigen_msg.h>
+
 class WaypointWithTime {
  public:
   WaypointWithTime()
@@ -154,7 +157,23 @@ int main(int argc, char** argv)
   double fraction = move_group.computeCartesianPath(waypoints, eef_step, jump_threshold, trajectory);
   ROS_INFO_NAMED("tutorial", "Visualizing plan 4 (Cartesian path) (%.2f%% acheived)", fraction * 100.0);
 
-  float variable = trajectory.multi_dof_joint_trajectory.points.at(0).transforms[0].translation.z;
+  //float variable = trajectory.multi_dof_joint_trajectory.points.at(0).transforms[0].translation.z;
+  //ROS_INFO("Posicion = .2f", trajectory.);
+  for (std::size_t i = 0 ; i < 7 ; ++i)
+  {
+      ROS_INFO("Entro");
+      //for (std::size_t j = 0 ; j < trajectory.multi_dof_joint_trajectory.joint_names.size(); ++j)
+      for (std::size_t j = 0 ; j < 7; ++j)
+      {
+        ROS_INFO("Entro dentro");
+        Eigen::Affine3d t;
+        tf::transformMsgToEigen(trajectory.multi_dof_joint_trajectory.points[i].transforms[j], t);
+        //ROS_INFO("No problema");
+        ROS_INFO("Valor t = %.2f", t.translation().z());
+      }
+
+
+  }
 
   //////////
 
@@ -165,13 +184,12 @@ int main(int argc, char** argv)
 
   std::size_t size_trajectory = trajectory.joint_trajectory.points.size();
           //path_points.joint_trajectory.points.size();
-  ROS_INFO("Trajectory size = %d", size_trajectory);
+  ROS_INFO("Trajectory size = %.2f", size_trajectory);
 
   int count = 0;
   while (count < 1)
      {
       count++;
-
       moveit_msgs::RobotTrajectory path_points; // Puntos de la trajectoria
       path_points = trajectory;
 
@@ -184,8 +202,8 @@ int main(int argc, char** argv)
         ss << "point_index: " << i << std::endl
            << "positions: "
            << "[" << path_points.joint_trajectory.points[i].positions[6]
-           << "," << path_points.joint_trajectory.points[i].positions[6]
-           << "," << path_points.joint_trajectory.points[i].positions[6]
+           //<< "," << path_points.joint_trajectory.points[i].positions[6]
+           //<< "," << path_points.joint_trajectory.points[i].positions[6]
            //<< "," << path_points.joint_trajectory.points[i].positions[3]
            //<< "," << path_points.joint_trajectory.points[i].positions[4]
            //<< "," << path_points.joint_trajectory.points[i].positions[5]
