@@ -9,7 +9,7 @@
     <!--JOINTS: When a joint is specified, the child link of that joint (which will always exist) is automatically included-->
     <!--CHAINS: When a chain is specified, all the links along the chain (including endpoints) are included in the group. Additionally, all the joints that are parents to included links are also included. This means that joints along the chain and the parent joint of the base link are included in the group-->
     <!--SUBGROUPS: Groups can also be formed by referencing to already defined group names-->
-    <group name="arm_1">
+    <group name="arm">
         <joint name="virtual_joint" />
         <joint name="toe_foot_joint" />
         <joint name="foot_knee_joint" />
@@ -18,8 +18,6 @@
         <joint name="hip_arm_joint" />
         <joint name="arm_hand_joint" />
         <joint name="hand_toe_2_joint" />
-    </group>
-    <group name="arm_2">
         <joint name="toe_2_foot_2_joint" />
         <joint name="foot_2_knee_2_joint" />
         <joint name="knee_2_lap_2_joint" />
@@ -27,11 +25,9 @@
         <joint name="hip_2_arm_2_joint" />
         <joint name="arm_2_hand_2_joint" />
         <joint name="hand_2_finger_joint" />
-        <joint name="hand_toe_2_joint" />
     </group>
     <!--VIRTUAL JOINT: Purpose: this element defines a virtual joint between a robot link and an external frame of reference (considered fixed with respect to the robot)-->
     <virtual_joint name="virtual_joint" type="fixed" parent_frame="world" child_link="toe" />
-    <virtual_joint name="virtual_joint_2" type="floating" parent_frame="world" child_link="toe_2" />
     <!--DISABLE COLLISIONS: By default it is assumed that any link of the robot could potentially come into collision with any other link in the robot. This tag disables collision checking between a specified pair of links. -->
     <disable_collisions link1="arm" link2="finger" reason="Never" />
     <disable_collisions link1="arm" link2="foot" reason="Never" />
@@ -42,11 +38,13 @@
     <disable_collisions link1="arm_2" link2="foot_2" reason="Never" />
     <disable_collisions link1="arm_2" link2="hand_2" reason="Adjacent" />
     <disable_collisions link1="arm_2" link2="hip_2" reason="Adjacent" />
+    <disable_collisions link1="arm_2" link2="knee" reason="Never" />
     <disable_collisions link1="arm_2" link2="knee_2" reason="Never" />
+    <disable_collisions link1="arm_2" link2="lap" reason="Never" />
     <disable_collisions link1="arm_2" link2="lap_2" reason="Never" />
+    <disable_collisions link1="arm_2" link2="toe" reason="Never" />
     <disable_collisions link1="finger" link2="foot" reason="Never" />
     <disable_collisions link1="finger" link2="foot_2" reason="Never" />
-    <disable_collisions link1="finger" link2="hand" reason="Never" />
     <disable_collisions link1="finger" link2="hand_2" reason="Adjacent" />
     <disable_collisions link1="finger" link2="hip" reason="Never" />
     <disable_collisions link1="finger" link2="knee" reason="Never" />
@@ -58,25 +56,24 @@
     <disable_collisions link1="foot" link2="hand" reason="Never" />
     <disable_collisions link1="foot" link2="hand_2" reason="Never" />
     <disable_collisions link1="foot" link2="knee" reason="Adjacent" />
-    <disable_collisions link1="foot" link2="knee_2" reason="Never" />
     <disable_collisions link1="foot" link2="toe" reason="Adjacent" />
+    <disable_collisions link1="foot" link2="toe_2" reason="Never" />
     <disable_collisions link1="foot_2" link2="hand_2" reason="Never" />
-    <disable_collisions link1="foot_2" link2="knee" reason="Never" />
     <disable_collisions link1="foot_2" link2="knee_2" reason="Adjacent" />
     <disable_collisions link1="foot_2" link2="toe_2" reason="Adjacent" />
     <disable_collisions link1="hand" link2="knee" reason="Never" />
     <disable_collisions link1="hand" link2="lap" reason="Never" />
-    <disable_collisions link1="hand" link2="toe" reason="Never" />
     <disable_collisions link1="hand" link2="toe_2" reason="Adjacent" />
-    <disable_collisions link1="hand_2" link2="hip" reason="Never" />
+    <disable_collisions link1="hand_2" link2="knee" reason="Never" />
     <disable_collisions link1="hand_2" link2="knee_2" reason="Never" />
     <disable_collisions link1="hand_2" link2="lap_2" reason="Never" />
     <disable_collisions link1="hand_2" link2="toe" reason="Never" />
-    <disable_collisions link1="hand_2" link2="toe_2" reason="Never" />
+    <disable_collisions link1="hip" link2="knee" reason="Never" />
     <disable_collisions link1="hip" link2="lap" reason="Adjacent" />
+    <disable_collisions link1="hip_2" link2="knee_2" reason="Never" />
     <disable_collisions link1="hip_2" link2="lap_2" reason="Adjacent" />
+    <disable_collisions link1="hip_2" link2="toe" reason="Never" />
     <disable_collisions link1="knee" link2="lap" reason="Adjacent" />
-    <disable_collisions link1="knee" link2="lap_2" reason="Never" />
     <disable_collisions link1="knee" link2="toe_2" reason="Never" />
     <disable_collisions link1="knee_2" link2="lap_2" reason="Adjacent" />
 </robot>

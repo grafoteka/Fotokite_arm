@@ -1,5 +1,5 @@
 controller_list:
-  - name: fake_arm_1_controller
+  - name: fake_arm_controller
     joints:
       - toe_foot_joint
       - foot_knee_joint
@@ -7,9 +7,6 @@ controller_list:
       - lap_hip_joint
       - hip_arm_joint
       - arm_hand_joint
-      - hand_toe_2_joint
-  - name: fake_arm_2_controller
-    joints:
       - hand_toe_2_joint
       - toe_2_foot_2_joint
       - foot_2_knee_2_joint

@@ -8,4 +8,4 @@ moveit_setup_assistant_config:
   CONFIG:
     author_name: Jorge
     author_email: jorge.deleon@upm.es
-    generated_timestamp: 1539292403
+    generated_timestamp: 1539640660

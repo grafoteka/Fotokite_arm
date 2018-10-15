@@ -2,10 +2,7 @@
  * Autor: Jorge De Leon
  * E-mail: jorge.deleon@upm.es
  *
- * First program to try to move the fotokite_arm 4 different points
- * and then store the path of the final link in a txt file
- * 
- * The path is a cartessian path
+ * First program to try to move the fotokite_arm to the point (2,2,2)
  *
  *********************************************************************/
 
@@ -23,7 +20,6 @@
 // File openning
 #include <iostream>
 #include <fstream>
-
 
 // Begin program
 int main(int argc, char** argv)
@@ -49,8 +45,38 @@ int main(int argc, char** argv)
   moveit::planning_interface::PlanningSceneInterface planning_scene_interface;
 
   // Raw pointers are frequently used to refer to the planning group for improved performance.
-  const robot_state::JointModelGroup* joint_model_group =
-      move_group.getCurrentState()->getJointModelGroup(PLANNING_GROUP);
+  const robot_state::JointModelGroup* joint_model_group =move_group.getCurrentState()->getJointModelGroup(PLANNING_GROUP);
+
+  // Set the obstacle
+  // ^^^^^^^^^^^^^^^^
+  // Define a collision object ROS message
+  moveit_msgs::CollisionObject collision_object;
+  collision_object.header.frame_id = move_group.getPlanningFrame();
+
+  // The id of the object is used to identify it
+  collision_object.id = "obstacle_1";
+
+  // Define the obstacle as a box and add to the world
+  shape_msgs::SolidPrimitive primitive;
+  primitive.type = primitive.BOX;
+  primitive.dimensions.resize(3);
+  primitive.dimensions[0] = 0.1;
+  primitive.dimensions[1] =   2;
+  primitive.dimensions[2] = 0.1;
+
+  // Define a pose for the box (relative to frame_id)
+  geometry_msgs::Pose box_pose;
+  box_pose.orientation.w = 1.0;
+  box_pose.position.x =  1.0;
+  box_pose.position.y =  0.0;
+  box_pose.position.z =  0.5;
+
+  collision_object.primitives.push_back(primitive);
+  collision_object.primitive_poses.push_back(box_pose);
+  collision_object.operation = collision_object.ADD;
+
+  std::vector<moveit_msgs::CollisionObject> collision_objects;
+  collision_objects.push_back(collision_object);
 
   /* --- MOVE_IT VISUALIZATION --- */
 
@@ -60,20 +86,53 @@ int main(int argc, char** argv)
   moveit_visual_tools::MoveItVisualTools visual_tools("toe");
   visual_tools.deleteAllMarkers();
 
+  // Add the collision object into the world
+  //ROS_INFO_NAMED("tutorial", "Add an object into the world");
+  planning_scene_interface.addCollisionObjects(collision_objects);
+
+  // RViz provides many types of markers, in this demo we will use text, cylinders, and spheres
+  Eigen::Affine3d text_pose = Eigen::Affine3d::Identity();
+
+  // Show text in RViz of status
+  //visual_tools.publishText(text_pose, "Add object", rvt::WHITE, rvt::XLARGE);
+  visual_tools.trigger();
+
+  //visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window to once the collision object appears in RViz");
+
   // Remote control is an introspection tool that allows users to step through a high level script
   // via buttons and keyboard shortcuts in RViz
   visual_tools.loadRemoteControl(); //Buttons of: Next, Continue, Stop, Break.
 
-  // RViz provides many types of markers, in this demo we will use text, cylinders, and spheres
-  Eigen::Affine3d text_pose = Eigen::Affine3d::Identity();
-  text_pose.translation().z() = 1.75; // Measure from origin (0, 0, 0)
-  visual_tools.publishText(text_pose, "Demo for Fotokite path planner", rvt::WHITE, rvt::XLARGE);
+  //text_pose.translation().z() = 1.75; // Measure from origin (0, 0, 0)
+  //visual_tools.publishText(text_pose, "Demo for Fotokite path planner", rvt::WHITE, rvt::XLARGE);
 
   // Batch publishing is used to reduce the number of messages being sent to RViz for large visualizations
+  //visual_tools.trigger();
+
+  // Plan a trajectory
+  move_group.setStartState(*move_group.getCurrentState());
+  geometry_msgs::Pose another_pose;
+  another_pose.orientation.w = 1.0;
+  another_pose.position.x = 2.0;
+  another_pose.position.y = 0.0;
+  another_pose.position.z = 0.5;
+  move_group.setPoseTarget(another_pose);
+
+  // Call the planner to compute the plan and visualize it
+  // IMPORTANT: this is just the planner, not asking move_group to move the robot
+  moveit::planning_interface::MoveGroupInterface::Plan my_plan;
+
+  bool success = (move_group.plan(my_plan) == moveit::planning_interface::MoveItErrorCode::SUCCESS);
+  ROS_INFO_NAMED("tutorial", "Visualizing plan 5 (pose goal move around cuboid) %s", success ? "" : "FAILED");
+
+  visual_tools.deleteAllMarkers();
+  visual_tools.publishText(text_pose, "Obstacle Goal", rvt::WHITE, rvt::XLARGE);
+  visual_tools.publishTrajectoryLine(my_plan.trajectory_, joint_model_group);
   visual_tools.trigger();
+  visual_tools.prompt("next step");
 
   /* --- START DEMO --- */
-  visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window to start the demo");
+  //visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window to start the demo");
 
 
   // Set the target point
@@ -83,7 +142,7 @@ int main(int argc, char** argv)
   // Third  goal (-1, -1, 1)
   // Fourth goal (-1,  1, 1)
 
-  geometry_msgs::Pose target_pose_1;
+  /*geometry_msgs::Pose target_pose_1;
   target_pose_1.orientation.w = 1.0;
   target_pose_1.position.x    = 1.0;
   target_pose_1.position.y    = 1.0;
@@ -105,7 +164,7 @@ int main(int argc, char** argv)
   target_pose_4.orientation.w =  1.0;
   target_pose_4.position.x    = -1.0;
   target_pose_4.position.y    =  1.0;
-  target_pose_4.position.z    =  1.0;
+  target_pose_4.position.z    =  1.0;*/
 
   //move_group.setPoseTarget(target_pose_1);
 
@@ -113,18 +172,18 @@ int main(int argc, char** argv)
   // ^^^^^^^^^^^^^^^^^^
   // This is for visualize the target_pose1.
   // I think that is better to know where it has to go, before it plan the motion
-  ROS_INFO_NAMED("4 points path", "Visualizing the trajectory line"); // There is not trajectory show
+  /*ROS_INFO_NAMED("4 points path", "Visualizing the trajectory line"); // There is not trajectory show
   visual_tools.publishAxisLabeled(target_pose_1, "pose1");
   visual_tools.publishAxisLabeled(target_pose_2, "pose2");
   visual_tools.publishAxisLabeled(target_pose_3, "pose3");
   visual_tools.publishAxisLabeled(target_pose_4, "pose4");
   visual_tools.trigger();
 
-  visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window to show the motion");
+  visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window to show the motion");*/
 
   // Call the planner to compute the plan and visualize it
   // IMPORTANT: this is just the planner, not asking move_group to move the robot
-  moveit::planning_interface::MoveGroupInterface::Plan my_plan;
+  /*moveit::planning_interface::MoveGroupInterface::Plan my_plan;
 
   bool success = (move_group.plan(my_plan) == moveit::planning_interface::MoveItErrorCode::SUCCESS);
   ROS_INFO_NAMED("tutorial", "Visualizing plan 1 (pose goal) %s", success ? "" : "FAILED");
@@ -133,15 +192,15 @@ int main(int argc, char** argv)
   waypoints.push_back(target_pose_1);
   waypoints.push_back(target_pose_2);
   waypoints.push_back(target_pose_3);
-  waypoints.push_back(target_pose_4);
+  waypoints.push_back(target_pose_4);*/
 
   // Specify the Cartesian path to be interpolated of 1 cm (max step in Cartesian translation = 0.01)
   // Jump threshold as 0.0 -> disabling it. (this is not sure for real robots)
-  moveit_msgs::RobotTrajectory trajectory;
+  /*moveit_msgs::RobotTrajectory trajectory;
   const double jump_threshold = 0.0;
   const double eef_step = 0.01;
   double fraction = move_group.computeCartesianPath(waypoints, eef_step, jump_threshold, trajectory);
-  ROS_INFO_NAMED("tutorial", "Visualizing plan 4 (Cartesian path) (%.2f%% acheived)", fraction * 100.0);
+  ROS_INFO_NAMED("tutorial", "Visualizing plan 4 (Cartesian path) (%.2f%% acheived)", fraction * 100.0);*/
 
   // straight from the tutorial
 
@@ -155,6 +214,8 @@ int main(int argc, char** argv)
   // 2- Set the robot on that pose (setVariablePositions && update)
   // 3- Obtain th3 values of the point from the link that is desired (kinematic_state->getGlobalLinkTransform("link"))
   // 3*- Also is possible for the orientation
+
+  moveit_msgs::RobotTrajectory trajectory;
 
   robot_model_loader::RobotModelLoader robot_model_loader("robot_description");
   robot_model::RobotModelPtr kinematic_model = robot_model_loader.getModel();
@@ -226,7 +287,7 @@ int main(int argc, char** argv)
 
   // Visualize the plan in RViz
   // ^^^^^^^^^^^^^^^^^^^^^^^^^^
-  visual_tools.deleteAllMarkers();
+  /*visual_tools.deleteAllMarkers();
   visual_tools.publishText(text_pose, "Joint Space Goal", rvt::WHITE, rvt::XLARGE);
   visual_tools.publishPath(waypoints, rvt::LIME_GREEN, rvt::SMALL); // This is the trajectory
 
@@ -242,7 +303,7 @@ int main(int argc, char** argv)
   //visual_tools.trigger();
 
   visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window to end the demo");
-
+*/
     ROS_INFO("Finish correctly");
 
 }
