@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<robot name="robot" xmlns:xacro="http://www.ros.org/wiki/xacro">
+<robot name="fotokite" xmlns:xacro="http://www.ros.org/wiki/xacro">
 
 
     <!-- ***************** -->
@@ -10,7 +10,8 @@
 
 
     <!--Import Fotokite arm -->
-    <xacro:include filename="$(find arm_description)/urdf/fotokite_3_modules_macro.xacro" />
+    <xacro:include filename="$(find arm_description)/urdf/fotokite.urdf.xacro" />
+    <xacro:include filename="$(find arm_description)/urdf/fotokite.gazebo" />
 
     <!--xacro:fotokite_arm parent="base_link">
         <origin xyz="-0.25 0.10 0.275" rpy="0 0 0" />
@@ -21,9 +22,9 @@
         <link name="world"/>
 
         <!-- Fotokite -->
-        <xacro:fotokite_arm parent="world">
-                <origin xyz="-0.25 0.10 0.275" rpy="0 0 0" />
-        </xacro:fotokite_arm>
+        <fotokite_arm parent="world">
+                <origin xyz="0 0 0" rpy="0 0 0" />
+        </fotokite_arm>
 
     <!--/xacro:macro-->
 

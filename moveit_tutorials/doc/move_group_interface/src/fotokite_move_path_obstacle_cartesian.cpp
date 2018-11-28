@@ -191,11 +191,11 @@
             kinematic_constraints::constructGoalConstraints(end_effector_name, target_pose1);
 
     robot_state::RobotState copied_state = planning_scene.getCurrentState();
-    copied_state.setToPoseTarget(target_pose1);
+    /*copied_state.setToPoseTarget(target_pose1);
     copied_state.update();
     bool constrained = planning_scene.isStateConstrained(copied_state, goal_constraint);
     ROS_INFO_STREAM("Test 8: Random state is " << (constrained ? "constrained" : "not constrained"));
-
+*/
 
 
     ROS_INFO("Finish correctly");

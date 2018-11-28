@@ -30,7 +30,6 @@
                 -x '$(arg x)'
                 -y '$(arg y)'
                 -z '$(arg z)'
-                -model robot"
-    />
+                -model fotokite"/>
 
 </launch>
