@@ -1,0 +1,67 @@
+fotokite:
+  # Publish all joint states -----------------------------------
+  joint_state_controller:
+    type: joint_state_controller/JointStateController
+    publish_rate: 50
+
+  # Position Controllers ---------------------------------------
+  module_1_yaw_pitch_position_controller:
+    type: effort_controllers/JointPositionController
+    joint: module_1_yaw_pitch_joint
+    pid: {p: 100.0, i: 0.01, d: 10.0}
+  module_1_pitch_roll_position_controller:
+    type: effort_controllers/JointPositionController
+    joint: module_1_pitch_roll_joint
+    pid: {p: 100.0, i: 0.01, d: 10.0}
+  module_1_roll_prismatic_position_controller:
+    type: effort_controllers/JointPositionController
+    joint: module_1_roll_prismatic_joint
+    pid: {p: 100.0, i: 0.01, d: 10.0}
+  module_1_prismatic_module_2_yaw_position_controller:
+    type: effort_controllers/JointPositionController
+    joint: module_1_prismatic_module_2_yaw_joint
+    pid: {p: 100.0, i: 0.01, d: 10.0}
+  module_2_yaw_pitch_position_controller:
+    type: effort_controllers/JointPositionController
+    joint: module_2_yaw_pitch_joint
+    pid: {p: 100.0, i: 0.01, d: 10.0}
+  module_2_pitch_roll_position_controller:
+    type: effort_controllers/JointPositionController
+    joint: module_2_pitch_roll_joint
+    pid: {p: 100.0, i: 0.01, d: 10.0}
+  module_2_roll_prismatic_position_controller:
+    type: effort_controllers/JointPositionController
+    joint: module_2_roll_prismatic_joint
+    pid: {p: 100.0, i: 0.01, d: 10.0}
+  module_2_prismatic_module_3_yaw_position_controller:
+    type: effort_controllers/JointPositionController
+    joint: module_2_prismatic_module_3_yaw_joint
+    pid: {p: 100.0, i: 0.01, d: 10.0}
+  module_3_yaw_pitch_position_controller:
+    type: effort_controllers/JointPositionController
+    joint: module_3_yaw_pitch_joint
+    pid: {p: 100.0, i: 0.01, d: 10.0}
+  module_3_pitch_roll_position_controller:
+    type: effort_controllers/JointPositionController
+    joint: module_3_pitch_roll_joint
+    pid: {p: 100.0, i: 0.01, d: 10.0}
+  module_3_roll_prismatic_position_controller:
+    type: effort_controllers/JointPositionController
+    joint: module_3_roll_prismatic_joint
+    pid: {p: 100.0, i: 0.01, d: 10.0}
+  module_3_prismatic_wrist_pitch_position_controller:
+    type: effort_controllers/JointPositionController
+    joint: module_3_prismatic_wrist_pitch_joint
+    pid: {p: 100.0, i: 0.01, d: 10.0}
+  wrist_pitch_yaw_position_controller:
+    type: effort_controllers/JointPositionController
+    joint: wrist_pitch_yaw_joint
+    pid: {p: 100.0, i: 0.01, d: 10.0}
+  wrist_yaw_roll_position_controller:
+    type: effort_controllers/JointPositionController
+    joint: wrist_yaw_roll_joint
+    pid: {p: 100.0, i: 0.01, d: 10.0}
+  wrist_roll_finger_position_controller:
+    type: effort_controllers/JointPositionController
+    joint: wrist_roll_finger_joint
+    pid: {p: 100.0, i: 0.01, d: 10.0}

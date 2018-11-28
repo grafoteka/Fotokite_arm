@@ -101,8 +101,6 @@ int main(int argc, char** argv)
   // We can print the name of the reference frame for this robot.
   ROS_INFO_NAMED("tutorial", "Reference frame: %s", move_group.getPlanningFrame().c_str());
 
-  // We can also print the name of the end-effector link for this group.
-  ROS_INFO_NAMED("tutorial", "End effector link: %s", move_group.getEndEffectorLink().c_str());
 
   // Start the demo
   // ^^^^^^^^^^^^^^^^^^^^^^^^^

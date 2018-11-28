@@ -205,7 +205,7 @@
       <visual>
         <origin xyz="0 0 0" rpy="0 0 0" />
         <geometry>
-          <mesh filename="package://arm_description/urdf/ardrone.dae"/>
+          <mesh filename="package://arm_description/meshes/ardrone.dae"/>
         </geometry>
       </visual>
 

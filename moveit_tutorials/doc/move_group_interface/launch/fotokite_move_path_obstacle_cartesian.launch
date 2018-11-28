@@ -1,0 +1,6 @@
+<launch>
+
+  <node name="move_group_interface_tutorial" pkg="moveit_tutorials" type="fotokite_move_path_obstacle_cartesian" respawn="false" output="screen">
+  </node>
+
+</launch>

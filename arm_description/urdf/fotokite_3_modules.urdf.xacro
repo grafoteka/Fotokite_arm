@@ -1,0 +1,464 @@
+<?xml version="1.0" ?>
+<robot name="fotokite" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+    <xacro:include filename="$(find arm_description)/urdf/fotokite_3_modules_transmission.urdf.xacro" />
+    <!-- Import all Gazebo-customization elements, including Gazebo colors -->
+    <xacro:include filename="$(find arm_description)/urdf/fotokite_3_modules.gazebo" />
+
+    <!--xacro:macro name="fotokite_arm" params="parent *origin"-->
+
+    <!-- Joints Control in Gazebo -->
+    <!--gazebo>
+        <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so"/>
+        <robotNamespace>/fotokite</robotNamespace>
+    </gazebo-->
+
+    <!--xacro:macro name="fotokite_arm" params="parent *origin"-->
+
+    <!-- Geometrical properties -->
+    <!--xacro:property name="PI" value="3.1415" /-->
+    <xacro:property name="side" value="0.04"/>
+    <xacro:property name="length" value="0.04"/>
+    <xacro:property name="cylinder_radius" value="0.005"/>
+    <xacro:property name="cylinder_length"  value="0.02"/>
+    <xacro:property name="link_side"      value="0.02"/>
+    <xacro:property name="joint_radius"   value="0.018"/>
+    <xacro:property name="joint_length"   value="0.025"/>
+
+    <!-- Materials -->
+    <material name="orange">
+        <color rgba="1.00 0.67 0.02 1.00"/>
+    </material>
+    <material name="gray">
+        <color rgba="0.80 0.80 0.80 1.00"/>
+    </material>
+
+    <!-- Generates a box visual/collision/inertial -->
+    <xacro:macro name="prism_vci" params="side length mass:=1 *origin">
+        <xacro:macro name="prism_geometry">
+            <xacro:insert_block name="origin"/>
+            <geometry>
+                <box size="${side} ${side} ${length}"/>
+            </geometry>
+        </xacro:macro>
+        <visual>
+            <xacro:prism_geometry/>
+            <material name="orange"/>
+        </visual>
+        <collision>
+            <xacro:prism_geometry/>
+        </collision>
+
+        <inertial>
+            <xacro:insert_block name="origin"/>
+            <mass value="${mass}"/>
+            <inertia ixx="${(mass/12)*(side*side+length*length)}"
+                     iyy="${(mass/12)*(side*side+length*length)}"
+                     izz="${(mass/6)*(side*side)}"
+                     ixy="0" ixz="0" iyz="0"/>
+        </inertial>
+    </xacro:macro>
+
+    <!-- Generates a cylinder visual/collision -->
+    <xacro:macro name="cylinder_vc" params="radius length *origin">
+        <xacro:macro name="cylinder_geometry">
+            <xacro:insert_block name="origin"/>
+            <geometry>
+                <cylinder length="${length}" radius="${radius}"/>
+            </geometry>
+        </xacro:macro>
+        <visual>
+            <xacro:cylinder_geometry/>
+            <material name="gray"/>
+        </visual>
+        <collision>
+            <xacro:cylinder_geometry/>
+        </collision>
+    </xacro:macro>
+
+    <!--joint name="base_link_module_1_yaw_joint" type="fixed"-->
+        <!--xacro:insert_block name="origin" /-->
+        <!--parent link="${parent}"/>
+        <child link="module_1_yaw"/-->
+        <!--origin xyz="-0.25 0.10 0.275" rpy="0 0 0" />
+        <parent link="world"/>
+        <child link="module_1_yaw"/>
+    </joint-->
+
+    <!-- ROBOT -->
+    <link name="world"/>
+
+    <joint name="fixed" type="fixed">
+        <parent link="world"/>
+        <child link="module_1_yaw"/>
+    </joint>
+
+    <!-- Links Module 1 -->
+    <link name="module_1_yaw">
+        <xacro:prism_vci length="${length}" side="${link_side}">
+            <origin xyz="0 0 ${length/2}" rpy="0 0 0"/>
+        </xacro:prism_vci>
+        <xacro:cylinder_vc radius="${joint_radius}" length="${joint_length}">
+            <origin xyz="0 0 ${length}" rpy="0 0 0"/>
+        </xacro:cylinder_vc>
+    </link>
+    <gazebo reference="module_1_yaw">
+        <material>Gazebo/Orange</material>
+        <self_collide>1</self_collide>
+    </gazebo>
+
+    <link name="module_1_pitch">
+        <xacro:prism_vci length="${length}" side="${link_side}">
+            <origin xyz="0 0 ${length/2}" rpy="0 0 0"/>
+        </xacro:prism_vci>
+        <xacro:cylinder_vc radius="${joint_radius}" length="${joint_length}">
+            <origin xyz="0 0 ${length}" rpy="${pi/2} 0 0"/>
+        </xacro:cylinder_vc>
+    </link>
+    <gazebo reference="module_1_pitch">
+        <material>Gazebo/Orange</material>
+        <self_collide>1</self_collide>
+    </gazebo>
+
+    <link name="module_1_roll">
+        <xacro:prism_vci length="${length}" side="${link_side}">
+            <origin xyz="0 0 ${length/2}" rpy="0 0 0"/>
+        </xacro:prism_vci>
+        <xacro:cylinder_vc radius="${joint_radius}" length="${joint_length}">
+            <origin xyz="0 0 ${length}" rpy="0 ${pi/2} 0"/>
+        </xacro:cylinder_vc>
+    </link>
+    <gazebo reference="module_1_roll">
+        <material>Gazebo/Orange</material>
+        <self_collide>1</self_collide>
+    </gazebo>
+
+    <link name="module_1_length">
+        <xacro:prism_vci length="${length}" side="${link_side}">
+            <origin xyz="0 0 ${length/2}" rpy="0 0 0"/>
+        </xacro:prism_vci>
+        <xacro:cylinder_vc radius="${joint_radius}" length="${joint_length}">
+            <origin xyz="0 0 ${length}" rpy="0 0 0"/>
+        </xacro:cylinder_vc>
+    </link>
+    <gazebo reference="module_1_length">
+        <material>Gazebo/Orange</material>
+        <self_collide>1</self_collide>
+    </gazebo>
+
+    <!-- Links Module 2 -->
+    <link name="module_2_yaw">
+        <xacro:prism_vci length="${length}" side="${link_side}">
+            <origin xyz="0 0 ${length/2}" rpy="0 0 0"/>
+        </xacro:prism_vci>
+        <xacro:cylinder_vc radius="${joint_radius}" length="${joint_length}">
+            <origin xyz="0 0 ${length}" rpy="0 0 0"/>
+        </xacro:cylinder_vc>
+    </link>
+    <gazebo reference="module_2_yaw">
+        <material>Gazebo/Blue</material>
+        <self_collide>1</self_collide>
+    </gazebo>
+
+    <link name="module_2_pitch">
+        <xacro:prism_vci length="${length}" side="${link_side}">
+            <origin xyz="0 0 ${length/2}" rpy="0 0 0"/>
+        </xacro:prism_vci>
+        <xacro:cylinder_vc radius="${joint_radius}" length="${joint_length}">
+            <origin xyz="0 0 ${length}" rpy="${pi/2} 0 0"/>
+        </xacro:cylinder_vc>
+    </link>
+    <gazebo reference="module_2_pitch">
+        <material>Gazebo/Blue</material>
+        <self_collide>1</self_collide>
+    </gazebo>
+
+    <link name="module_2_roll">
+        <xacro:prism_vci length="${length}" side="${link_side}">
+            <origin xyz="0 0 ${length/2}" rpy="0 0 0"/>
+        </xacro:prism_vci>
+        <xacro:cylinder_vc radius="${joint_radius}" length="${joint_length}">
+            <origin xyz="0 0 ${length}" rpy="0 ${pi/2} 0"/>
+        </xacro:cylinder_vc>
+    </link>
+    <gazebo reference="module_2_roll">
+        <material>Gazebo/Blue</material>
+        <self_collide>1</self_collide>
+    </gazebo>
+
+    <link name="module_2_length">
+        <xacro:prism_vci length="${length}" side="${link_side}">
+            <origin xyz="0 0 ${length/2}" rpy="0 0 0"/>
+        </xacro:prism_vci>
+        <xacro:cylinder_vc radius="${joint_radius}" length="${joint_length}">
+            <origin xyz="0 0 ${length}" rpy="0 0 0"/>
+        </xacro:cylinder_vc>
+    </link>
+    <gazebo reference="module_2_length">
+        <material>Gazebo/Blue</material>
+        <self_collide>1</self_collide>
+    </gazebo>
+
+    <!-- Links Module 3 -->
+    <link name="module_3_yaw">
+        <xacro:prism_vci length="${length}" side="${link_side}">
+            <origin xyz="0 0 ${length/2}" rpy="0 0 0"/>
+        </xacro:prism_vci>
+        <xacro:cylinder_vc radius="${joint_radius}" length="${joint_length}">
+            <origin xyz="0 0 ${length}" rpy="0 0 0"/>
+        </xacro:cylinder_vc>
+    </link>
+    <gazebo reference="module_3_yaw">
+        <material>Gazebo/Green</material>
+        <self_collide>1</self_collide>
+    </gazebo>
+
+    <link name="module_3_pitch">
+        <xacro:prism_vci length="${length}" side="${link_side}">
+            <origin xyz="0 0 ${length/2}" rpy="0 0 0"/>
+        </xacro:prism_vci>
+        <xacro:cylinder_vc radius="${joint_radius}" length="${joint_length}">
+            <origin xyz="0 0 ${length}" rpy="${pi/2} 0 0"/>
+        </xacro:cylinder_vc>
+    </link>
+    <gazebo reference="module_3_pitch">
+        <material>Gazebo/Green</material>
+        <self_collide>1</self_collide>
+    </gazebo>
+
+    <link name="module_3_roll">
+        <xacro:prism_vci length="${length}" side="${link_side}">
+            <origin xyz="0 0 ${length/2}" rpy="0 0 0"/>
+        </xacro:prism_vci>
+        <xacro:cylinder_vc radius="${joint_radius}" length="${joint_length}">
+            <origin xyz="0 0 ${length}" rpy="0 ${pi/2} 0"/>
+        </xacro:cylinder_vc>
+    </link>
+    <gazebo reference="module_3_roll">
+        <material>Gazebo/Green</material>
+        <self_collide>1</self_collide>
+    </gazebo>
+
+    <link name="module_3_length">
+        <xacro:prism_vci length="${length}" side="${link_side}">
+            <origin xyz="0 0 ${length/2}" rpy="0 0 0"/>
+        </xacro:prism_vci>
+        <xacro:cylinder_vc radius="${joint_radius}" length="${joint_length}">
+            <origin xyz="0 0 ${length}" rpy="0 0 0"/>
+        </xacro:cylinder_vc>
+    </link>
+    <gazebo reference="module_3_length">
+        <material>Gazebo/Green</material>
+        <self_collide>1</self_collide>
+    </gazebo>
+
+    <!-- Links Wrist -->
+    <link name="wrist_pitch">
+        <xacro:prism_vci length="${length}" side="${link_side}">
+            <origin xyz="0 0 ${length/2}" rpy="0 0 0"/>
+        </xacro:prism_vci>
+        <xacro:cylinder_vc radius="${joint_radius}" length="${joint_length}">
+            <origin xyz="0 0 ${length}" rpy="${pi/2} 0 0"/>
+        </xacro:cylinder_vc>
+    </link>
+    <gazebo reference="wrist_pitch">
+        <material>Gazebo/Yellow</material>
+        <self_collide>1</self_collide>
+    </gazebo>
+
+    <link name="wrist_yaw">
+        <xacro:prism_vci length="${length}" side="${link_side}">
+            <origin xyz="0 0 ${length/2}" rpy="0 0 0"/>
+        </xacro:prism_vci>
+        <xacro:cylinder_vc radius="${joint_radius}" length="${joint_length}">
+            <origin xyz="0 0 ${length}" rpy="0 0 0"/>
+        </xacro:cylinder_vc>
+    </link>
+    <gazebo reference="wrist_yaw">
+        <material>Gazebo/Yellow</material>
+        <self_collide>1</self_collide>
+    </gazebo>
+
+    <link name="wrist_roll">
+        <xacro:prism_vci length="${length}" side="${link_side}">
+            <origin xyz="0 0 ${length/2}" rpy="0 0 0"/>
+        </xacro:prism_vci>
+        <xacro:cylinder_vc radius="${joint_radius}" length="${joint_length}">
+            <origin xyz="0 0 ${length}" rpy="0 ${pi/2} 0"/>
+        </xacro:cylinder_vc>
+    </link>
+    <gazebo reference="wrist_roll">
+        <material>Gazebo/Yellow</material>
+        <self_collide>1</self_collide>
+    </gazebo>
+
+    <link name="finger">
+        <inertial>
+            <mass value="1.477" />
+            <origin xyz="0 0 0" />
+            <inertia ixx="0.01152" ixy="0.0" ixz="0.0" iyy="0.01152" iyz="0.0" izz="0.0218" />
+        </inertial>
+
+        <visual>
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <geometry>
+                <mesh filename="package://arm_description/meshes/ardrone.dae"/>
+            </geometry>
+        </visual>
+
+        <collision>
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <geometry>
+                <mesh filename="package://arm_description/meshes/ardrone.dae"/>
+                <!--box size="0.001 0.001 0.001"/-->
+            </geometry>
+        </collision>
+    </link>
+
+    <!-- Joints Module 1 -->
+    <joint name="module_1_yaw_pitch_joint" type="continuous">
+        <origin xyz="0 0 ${length}" rpy="0 0 0"/>
+        <parent link="module_1_yaw"/>
+        <child link="module_1_pitch"/>
+        <axis xyz="0 0 1"/>
+        <limit effort="40.0"
+               velocity="1.0"/>
+    </joint>
+
+    <joint name="module_1_pitch_roll_joint" type="continuous">
+        <origin xyz="0 0 ${length}" rpy="0 0 0"/>
+        <parent link="module_1_pitch"/>
+        <child link="module_1_roll"/>
+        <axis xyz="0 1 0"/>
+        <limit effort="40.0"
+               velocity="1.0"/>
+    </joint>
+
+    <joint name="module_1_roll_prismatic_joint" type="continuous">
+        <origin xyz="0 0 ${length}" rpy="0 0 0"/>
+        <parent link="module_1_roll"/>
+        <child link="module_1_length"/>
+        <axis xyz="1 0 0"/>
+        <limit effort="40.0"
+               velocity="1.0"/>
+    </joint>
+
+    <joint name="module_1_prismatic_module_2_yaw_joint" type="prismatic">
+        <origin xyz="0 0 ${length}" rpy="0 0 0"/>
+        <parent link="module_1_length"/>
+        <child link="module_2_yaw"/>
+        <axis xyz="0 0 1"/>
+        <limit effort   = "40.0"
+               velocity = "1.0"
+               lower    = "0.0"
+               upper    = "2.0"/>
+    </joint>
+
+    <!-- Joints Module 2 -->
+    <joint name="module_2_yaw_pitch_joint" type="continuous">
+        <origin xyz="0 0 ${length}" rpy="0 0 0"/>
+        <parent link="module_2_yaw"/>
+        <child link="module_2_pitch"/>
+        <axis xyz="0 0 1"/>
+        <limit effort="40.0"
+               velocity="1.0"/>
+    </joint>
+
+    <joint name="module_2_pitch_roll_joint" type="continuous">
+        <origin xyz="0 0 ${length}" rpy="0 0 0"/>
+        <parent link="module_2_pitch"/>
+        <child link="module_2_roll"/>
+        <axis xyz="0 1 0"/>
+        <limit effort="40.0"
+               velocity="1.0"/>
+    </joint>
+
+    <joint name="module_2_roll_prismatic_joint" type="continuous">
+        <origin xyz="0 0 ${length}" rpy="0 0 0"/>
+        <parent link="module_2_roll"/>
+        <child link="module_2_length"/>
+        <axis xyz="1 0 0"/>
+        <limit effort="40.0"
+               velocity="1.0"/>
+    </joint>
+
+    <joint name="module_2_prismatic_module_3_yaw_joint" type="prismatic">
+        <origin xyz="0 0 ${length}" rpy="0 0 0"/>
+        <parent link="module_2_length"/>
+        <child link="module_3_yaw"/>
+        <axis xyz="0 0 1"/>
+        <limit effort   = "40.0"
+               velocity = "1.0"
+               lower    = "0.0"
+               upper    = "2.0"/>
+    </joint>
+
+    <!-- Joints Module 3 -->
+    <joint name="module_3_yaw_pitch_joint" type="continuous">
+        <origin xyz="0 0 ${length}" rpy="0 0 0"/>
+        <parent link="module_3_yaw"/>
+        <child link="module_3_pitch"/>
+        <axis xyz="0 0 1"/>
+        <limit effort="40.0"
+               velocity="1.0"/>
+        </joint>
+
+    <joint name="module_3_pitch_roll_joint" type="continuous">
+        <origin xyz="0 0 ${length}" rpy="0 0 0"/>
+        <parent link="module_3_pitch"/>
+        <child link="module_3_roll"/>
+        <axis xyz="0 1 0"/>
+        <limit effort="40.0"
+               velocity="1.0"/>
+    </joint>
+
+    <joint name="module_3_roll_prismatic_joint" type="continuous">
+        <origin xyz="0 0 ${length}" rpy="0 0 0"/>
+        <parent link="module_3_roll"/>
+        <child link="module_3_length"/>
+        <axis xyz="1 0 0"/>
+        <limit effort="40.0"
+               velocity="1.0"/>
+    </joint>
+
+    <joint name="module_3_prismatic_wrist_pitch_joint" type="prismatic">
+        <origin xyz="0 0 ${length}" rpy="0 0 0"/>
+        <parent link="module_3_length"/>
+        <child link="wrist_pitch"/>
+        <axis xyz="0 0 1"/>
+        <limit effort   = "40.0"
+               velocity = "1.0"
+               lower    = "0.0"
+               upper    = "2.0"/>
+    </joint>
+
+    <!-- Joints wrist -->
+    <joint name="wrist_pitch_yaw_joint" type="continuous">
+        <origin xyz="0 0 ${length}" rpy="0 0 0"/>
+        <parent link="wrist_pitch"/>
+        <child link="wrist_yaw"/>
+        <axis xyz="0 1 0"/>
+        <limit effort="40.0"
+               velocity="1.0"/>
+    </joint>
+
+    <joint name="wrist_yaw_roll_joint" type="continuous">
+        <origin xyz="0 0 ${length}" rpy="0 0 0"/>
+        <parent link="wrist_yaw"/>
+        <child link="wrist_roll"/>
+        <axis xyz="0 0 1"/>
+        <limit effort="40.0"
+               velocity="1.0"/>
+    </joint>
+
+    <joint name="wrist_roll_finger_joint" type="continuous">
+        <origin xyz="0 0 ${length}" rpy="0 0 0"/>
+        <parent link="wrist_roll"/>
+        <child link="finger"/>
+        <axis xyz="1 0 0"/>
+        <limit effort="40.0"
+               velocity="1.0"/>
+    </joint>
+    <!--/xacro:macro-->
+
+</robot>

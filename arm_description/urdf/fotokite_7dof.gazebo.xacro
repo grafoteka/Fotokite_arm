@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+
+<!-- If the tag is set to true, the link can collide with other links in the model -->
+
+  <xacro:macro name="fotokite_gazebo">
+
+    <gazebo reference="toe">
+      <selfCollide>true</selfCollide>
+    </gazebo>
+    <gazebo reference="foot">
+      <selfCollide>true</selfCollide>
+    </gazebo>
+    <gazebo reference="knee">
+      <selfCollide>true</selfCollide>
+    </gazebo>
+    <gazebo reference="lap">
+      <selfCollide>true</selfCollide>
+    </gazebo>
+    <gazebo reference="hip">
+      <selfCollide>true</selfCollide>
+    </gazebo>
+    <gazebo reference="arm">
+      <selfCollide>true</selfCollide>
+    </gazebo>
+    <gazebo reference="hand">
+      <selfCollide>true</selfCollide>
+    </gazebo>
+    <gazebo reference="finger">
+      <selfCollide>true</selfCollide>
+    </gazebo>
+
+  </xacro:macro>
+
+</robot>
