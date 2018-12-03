@@ -1,0 +1,11 @@
+moveit_setup_assistant_config:
+  URDF:
+    package: fotokite_description
+    relative_path: robots/robot.xacro
+    xacro_args: "--inorder "
+  SRDF:
+    relative_path: config/fotokite.srdf
+  CONFIG:
+    author_name: Jorge De Leon
+    author_email: jorge.deleon@upm.es
+    generated_timestamp: 1543871546

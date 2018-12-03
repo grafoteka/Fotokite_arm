@@ -1,0 +1,20 @@
+controller_list:
+  - name: fake_module_1_group_controller
+    joints:
+      []
+  - name: fake_module_2_group_controller
+    joints:
+      []
+  - name: fake_module_3_group_controller
+    joints:
+      []
+  - name: fake_wrist_group_controller
+    joints:
+      - wrist_pitch_yaw_joint
+      - wrist_yaw_roll_joint
+      - wrist_roll_finger_joint
+  - name: fake_fotokite_group_controller
+    joints:
+      - wrist_pitch_yaw_joint
+      - wrist_yaw_roll_joint
+      - wrist_roll_finger_joint

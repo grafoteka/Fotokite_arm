@@ -1,0 +1,19 @@
+controller_manager_ns: ''
+controller_list:
+  - name: fotokite_arm/wrist_group_controller
+    action_ns: follow_joint_trajectory
+    type: FollowJointTrajectory
+    default: true
+    joints:
+      - wrist_pitch_yaw_joint
+      - wrist_yaw_roll_joint
+      - wrist_roll_finger_joint
+
+  - name: fotokite_arm/fotokite_group_controller
+    action_ns: follow_joint_trajectory
+    type: FollowJointTrajectory
+    default: true
+    joints:
+      - wrist_pitch_yaw_joint
+      - wrist_yaw_roll_joint
+      - wrist_roll_finger_joint

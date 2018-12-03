@@ -1,0 +1,294 @@
+<?xml version="1.0"?>
+<robot name="fotokite" xmlns:xacro="http://ros.org/wiki/xacro">
+
+    <!--xacro:include filename="$(find arm_description)/urdf/fotokite_3_modules.gazebo" /-->
+    <!--xacro:include filename="$(find arm_description)/urdf/fotokite_3_modules.gazebo" /-->
+
+    <!-- Joints Control in Gazebo -->
+    <!--gazebo>
+        <plugin name="ros_control" filename="libgazebo_ros_control.so"/>
+    </gazebo-->
+
+    <xacro:property name="PI" value="3.14159265359"/>
+
+    <!-- Geometrical properties -->
+    <xacro:property name="cylinder_radius"  value="0.005"/>
+    <xacro:property name="cylinder_length"  value="0.02"/>
+    <xacro:property name="link_side"        value="0.02"/>
+    <xacro:property name="joint_radius"     value="0.018"/>
+    <xacro:property name="joint_length"     value="0.025"/>
+    <xacro:property name="length"           value="0.04"/>
+
+    <!-- Materials -->
+    <material name="orange">
+        <color rgba="1.00 0.67 0.02 1.00"/>
+    </material>
+    <material name="gray">
+        <color rgba="0.80 0.80 0.80 1.00"/>
+    </material>
+
+    <!-- Generates a box visual/collision/inertial -->
+    <xacro:macro name="prism_vci" params="side length mass:=1 *origin">
+        <xacro:macro name="prism_geometry">
+            <xacro:insert_block name="origin"/>
+            <geometry>
+                <box size="${side} ${side} ${length}"/>
+            </geometry>
+        </xacro:macro>
+        <visual>
+            <xacro:prism_geometry/>
+            <material name="orange"/>
+        </visual>
+        <collision>
+            <xacro:prism_geometry/>
+        </collision>
+
+        <inertial>
+            <xacro:insert_block name="origin"/>
+            <mass value="${mass}"/>
+            <inertia ixx="${(mass/12)*(side*side+length*length)}"
+                     iyy="${(mass/12)*(side*side+length*length)}"
+                     izz="${(mass/6)*(side*side)}"
+                     ixy="0" ixz="0" iyz="0"/>
+        </inertial>
+    </xacro:macro>
+
+    <!-- Generates a cylinder visual/collision -->
+    <xacro:macro name="cylinder_vc" params="radius length *origin">
+        <xacro:macro name="cylinder_geometry">
+            <xacro:insert_block name="origin"/>
+            <geometry>
+                <cylinder length="${length}" radius="${radius}"/>
+            </geometry>
+        </xacro:macro>
+        <visual>
+            <xacro:cylinder_geometry/>
+            <material name="gray"/>
+        </visual>
+        <collision>
+            <xacro:cylinder_geometry/>
+        </collision>
+    </xacro:macro>
+
+    <!-- Generates elements -->
+    <xacro:macro name="arm_joint" params="prefix child parent dist:=0 axis joint_type lower upper index">
+    <!--xacro:unless value="${child == 'arm'}"-->
+
+    <!-- Joint -->
+    <!--joint name="${prefix}_${parent}_${child}_joint" type="${joint_type}">
+        <origin xyz="0 0 ${dist}" rpy="0 0 0"/>
+        <parent link="${prefix}_${parent}"/>
+        <xacro:if value="${parent != 'length'}">
+            <child link="${prefix}_${child}"/>
+        </xacro:if>
+        <xacro:if value="${parent == 'length'}">
+                        <xacro:if value="${index != 3}">
+                            <child link="module_${index + 1}_${child}"/>
+                        </xacro:if>
+                        <xacro:if value="${index == 3}">
+                            <child link="wrist_${child}"/>
+                        </xacro:if>
+        </xacro:if>
+    </joint-->
+    <!--xacro:if value="${parent != 'length'}">
+        <joint name="${prefix}_${parent}_${child}_joint" type="${joint_type}">
+            <origin xyz="0 0 ${dist}" rpy="0 0 0"/>
+            <parent link="${prefix}_${parent}"/-->
+
+            <!--xacro:if value="${parent != 'length'}"-->
+                <!--child link="${prefix}_${child}"/-->
+            <!--/xacro:if-->
+
+            <!--xacro:if value="${parent == 'length'}">
+                <xacro:if value="${index == 1}">
+                    <child link="module_${index + 1}_${child}"/>
+                </xacro:if>
+                <xacro:if value="${index == 2}">
+                    <child link="module_${index + 1}_${child}"/>
+                </xacro:if>
+                <xacro:if value="${index == 3}">
+                    <child link="wrist_${child}"/>
+                </xacro:if>
+            </xacro:if-->
+
+            <!--axis xyz="${axis}"/>
+            <limit effort="40.0"
+                   velocity="1.0"
+                   lower="${lower}"
+                   upper="${upper}"/>
+        </joint>
+    </xacro:if-->
+
+    <!--xacro:if value="${parent == 'length'}">
+        <xacro:if value="${index != 3}">
+            <joint name="${prefix}_${parent}_module_${index + 1}_${child}_joint" type="${joint_type}">
+                <origin xyz="0 0 ${dist}" rpy="0 0 0"/>
+                <parent link="${prefix}_${parent}"/>
+                <child link="module_${index + 1}_${child}"/>
+                <axis xyz="${axis}"/>
+                <limit effort="40.0"
+                       velocity="1.0"
+                       lower="${lower}"
+                       upper="${upper}"/>
+            </joint>
+        </xacro:if>
+        <xacro:if value="${index == 3}">
+            <joint name="${prefix}_${parent}_wrist_${child}_joint" type="${joint_type}">
+                <origin xyz="0 0 ${dist}" rpy="0 0 0"/>
+                <parent link="${prefix}_${parent}"/>
+                <child link="wrist_${child}"/>
+                <axis xyz="${axis}"/>
+                <limit effort="40.0"
+                       velocity="1.0"
+                       lower="${lower}"
+                       upper="${upper}"/>
+            </joint>
+        </xacro:if>
+    </xacro:if-->
+
+    <!-- Transmission -->
+    <!--xacro:if value="${parent != 'length'}">
+        <transmission name="${prefix}_${parent}_${child}_transmission">
+            <type>transmission_interface/SimpleTransmission</type>
+            <joint name="${prefix}_${parent}_${child}_joint">
+                <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+            </joint>
+            <actuator name="${prefix}_${parent}_${child}_motor">
+                <mechanicalReduction>1</mechanicalReduction>
+                <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+            </actuator>
+        </transmission>
+    </xacro:if>
+
+    <xacro:if value="${parent == 'length'}">
+        <xacro:if value="${index != 3}">
+            <transmission name="${prefix}_${parent}_module_${index + 1}_${child}_transmission">
+                <type>transmission_interface/SimpleTransmission</type>
+                <joint name="${prefix}_${parent}_module_${index + 1}_${child}_joint">
+                    <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+                </joint>
+                <actuator name="${prefix}_${parent}_module_${index + 1}_${child}_motor">
+                    <mechanicalReduction>1</mechanicalReduction>
+                    <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+                </actuator>
+            </transmission>
+        </xacro:if>
+        <xacro:if value="${index == 3}">
+            <transmission name="${prefix}_${parent}_wrist_${child}_transmission">
+                <type>transmission_interface/SimpleTransmission</type>
+                <joint name="${prefix}_${parent}_wrist_${child}_joint">
+                    <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+                </joint>
+                <actuator name="${prefix}_${parent}_wrist_${child}_motor">
+                    <mechanicalReduction>1</mechanicalReduction>
+                    <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+                </actuator>
+            </transmission>
+        </xacro:if>
+    </xacro:if-->
+
+        <!-- Link -->
+        <link name="${prefix}_${parent}">
+            <xacro:prism_vci length="${dist}" side="${link_side}">
+                <origin xyz="0 0 ${dist/2}" rpy="0 0 0"/>
+            </xacro:prism_vci>
+            <xacro:cylinder_vc radius="${joint_radius}" length="${joint_length}">
+                <xacro:if value="${axis == '0 0 1'}">
+                    <origin xyz="0 0 ${dist}" rpy="0 0 0"/>
+                </xacro:if>
+                <xacro:if value="${axis == '1 0 0'}">
+                    <origin xyz="0 0 ${dist}" rpy="0 ${PI/2} 0"/>
+                </xacro:if>
+                <xacro:if value="${axis == '0 1 0'}">
+                    <origin xyz="0 0 ${dist}" rpy="${PI/2} 0 0"/>
+                </xacro:if>
+            </xacro:cylinder_vc>
+        </link>
+        <gazebo reference="${prefix}_${parent}">
+            <material>Gazebo/Orange</material>
+        </gazebo>
+
+    </xacro:macro>
+
+
+
+    <!--xacro:macro name="fotokite_arm" params="parent *origin"-->
+
+        <!-- Uncomment for RViz with fake joints -->
+        <!-- Uncomment for Gazebo -->
+        <!--link name="${parent}"/-->
+
+        <!-- Uncomment for RViz with fake joints -->
+        <!-- Uncomment for Gazebo -->
+        <!-- Arm fixed to world frame  -->
+        <joint name="base_link_module_1_yaw_joint" type="fixed">
+            <!--xacro:insert_block name="origin" /-->
+            <!--parent link="${parent}"/-->
+            <parent name= "base_link"/>
+            <child link="module_1_yaw"/>
+        </joint>
+        <!-- Joints Chain -->
+        <!-- roll  = x
+             pitch = y
+             yaw   = z  -->
+             <!-- Wrist angles: pitch, yaw, roll -->
+        <xacro:arm_joint prefix="module_1"  parent="yaw"      child="pitch"     axis="0 0 1" dist="${length}"   joint_type="revolute"   lower="${-PI}"      upper="${PI}"   index="0"/>
+        <xacro:arm_joint prefix="module_1"  parent="pitch"    child="roll"      axis="0 1 0" dist="${length}"  joint_type="revolute"   lower="${-PI}"      upper="${PI}"   index="0"/>
+        <xacro:arm_joint prefix="module_1"  parent="roll"     child="length"    axis="1 0 0" dist="${length}"  joint_type="revolute"   lower="${-PI}"      upper="${PI}"   index="0"/>
+        <xacro:arm_joint prefix="module_1"  parent="length"   child="yaw"       axis="0 0 1" dist="${length}"   joint_type="prismatic"  lower="0"           upper="2"       index="1"/>
+        <xacro:arm_joint prefix="module_2"  parent="yaw"      child="pitch"     axis="0 0 1" dist="${length}"   joint_type="revolute"   lower="${-PI}"      upper="${PI}"   index="0"/>
+        <xacro:arm_joint prefix="module_2"  parent="pitch"    child="roll"      axis="0 1 0" dist="${length}"   joint_type="revolute"   lower="${-PI}"      upper="${PI}"   index="0"/>
+        <xacro:arm_joint prefix="module_2"  parent="roll"     child="length"    axis="1 0 0" dist="${length}"  joint_type="revolute"   lower="${-PI}"      upper="${PI}"   index="0"/>
+        <xacro:arm_joint prefix="module_2"  parent="length"   child="yaw"       axis="0 0 1" dist="${length}"   joint_type="prismatic"  lower="0"           upper="2"       index="2"/>
+        <xacro:arm_joint prefix="module_3"  parent="yaw"      child="pitch"     axis="0 0 1" dist="${length}"   joint_type="revolute"   lower="${-PI}"      upper="${PI}"   index="0"/>
+        <xacro:arm_joint prefix="module_3"  parent="pitch"    child="roll"      axis="0 1 0" dist="${length}"   joint_type="revolute"   lower="${-PI}"      upper="${PI}"   index="0"/>
+        <xacro:arm_joint prefix="module_3"  parent="roll"     child="length"    axis="1 0 0" dist="${length}"  joint_type="revolute"   lower="${-PI}"      upper="${PI}"   index="0"/>
+        <xacro:arm_joint prefix="module_3"  parent="length"   child="pitch"     axis="0 0 1" dist="${length}"   joint_type="prismatic"  lower="0"           upper="2"       index="3"/>
+        <xacro:arm_joint prefix="wrist"     parent="pitch"    child="yaw"       axis="0 1 0" dist="${length}"  joint_type="revolute"   lower="${-PI}"      upper="${PI}"   index="0"/>
+        <xacro:arm_joint prefix="wrist"     parent="yaw"      child="roll"      axis="0 0 1" dist="${length}"  joint_type="revolute"   lower="${-PI}"      upper="${PI}"   index="0"/>
+        <xacro:arm_joint prefix="wrist"     parent="roll"     child="finger"    axis="1 0 0" dist="${length}"  joint_type="revolute"   lower="${-PI}"      upper="${PI}"   index="0"/>
+
+
+
+        <!--gazebo reference="arm">
+        <material>Gazebo/Red</material>
+        </gazebo-->
+    <!--/xacro:macro-->
+
+    <!-- End effector -->
+    <!--link name="finger">
+    <xacro:prism_vci length="${finger_length}" side="${link_side}">
+      <origin xyz="0 0 ${finger_length/2}" rpy="0 0 0"/>
+    </xacro:prism_vci>
+    </link-->
+    <!--link name="wrist_finger">
+        <inertial>
+            <mass value="1.477" />
+            <origin xyz="0 0 0" />
+            <inertia ixx="0.01152" ixy="0.0" ixz="0.0" iyy="0.01152" iyz="0.0" izz="0.0218" />
+        </inertial>
+
+        <visual>
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <geometry>
+                <mesh filename="package://arm_description/meshes/ardrone.dae"/>
+            </geometry>
+        </visual>
+
+        <collision>
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <geometry-->
+                <!--mesh filename="package://arm_description/urdf/ardrone.dae"/-->
+                <!--box size="0.001 0.001 0.001"/>
+            </geometry>
+        </collision>
+    </link-->
+
+    <!--link name="world"/-->
+
+    <!-- Fotokite -->
+    <!--xacro:fotokite_arm parent="world">
+            <origin xyz="0.5 0.5 0.25" rpy="0 0 0" />
+    </xacro:fotokite_arm-->
+
+</robot>

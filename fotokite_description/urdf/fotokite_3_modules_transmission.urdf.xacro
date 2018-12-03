@@ -1,0 +1,163 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+
+  <!--xacro:macro name="ur_arm_transmission" params="prefix"-->
+
+    <transmission name="module_1_yaw_pitch_trans">
+        <type>transmission_interface/SimpleTransmission</type>
+        <joint name="module_1_yaw_pitch_joint">
+            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+        </joint>
+        <actuator name="module_1_yaw_pitch_motor">
+            <mechanicalReduction>1</mechanicalReduction>
+            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+        </actuator>
+    </transmission>
+
+    <transmission name="module_1_pitch_roll_trans">
+        <type>transmission_interface/SimpleTransmission</type>
+        <joint name="module_1_pitch_roll_joint">
+            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+        </joint>
+        <actuator name="module_1_pitch_roll_motor">
+            <mechanicalReduction>1</mechanicalReduction>
+            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+        </actuator>
+    </transmission>
+
+    <transmission name="module_1_roll_length_trans">
+        <type>transmission_interface/SimpleTransmission</type>
+        <joint name="module_1_roll_length_joint">
+            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+        </joint>
+        <actuator name="module_1_roll_length_motor">
+            <mechanicalReduction>1</mechanicalReduction>
+            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+        </actuator>
+    </transmission>
+
+    <transmission name="module_1_length_module_2_yaw_trans">
+        <type>transmission_interface/SimpleTransmission</type>
+        <joint name="module_1_length_module_2_yaw_joint">
+            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+        </joint>
+        <actuator name="module_1_length_module_2_yaw_motor">
+            <mechanicalReduction>1</mechanicalReduction>
+            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+        </actuator>
+    </transmission>
+
+    <transmission name="module_2_yaw_pitch_trans">
+      <type>transmission_interface/SimpleTransmission</type>
+      <joint name="module_2_yaw_pitch_joint">
+        <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      </joint>
+      <actuator name="module_2_yaw_pitch_motor">
+        <mechanicalReduction>1</mechanicalReduction>
+      </actuator>
+    </transmission>
+
+    <transmission name="module_2_pitch_roll_trans">
+      <type>transmission_interface/SimpleTransmission</type>
+      <joint name="module_2_pitch_roll_joint">
+        <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      </joint>
+      <actuator name="module_2_pitch_roll_motor">
+        <mechanicalReduction>1</mechanicalReduction>
+      </actuator>
+    </transmission>
+
+    <transmission name="module_2_roll_prismatic_trans">
+        <type>transmission_interface/SimpleTransmission</type>
+        <joint name="module_2_roll_prismatic_joint">
+            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+        </joint>
+        <actuator name="module_2_roll_prismatic_motor">
+            <mechanicalReduction>1</mechanicalReduction>
+            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+        </actuator>
+    </transmission>
+
+    <transmission name="module_2_prismatic_module_3_yaw_trans">
+      <type>transmission_interface/SimpleTransmission</type>
+      <joint name="module_2_prismatic_module_3_yaw_joint">
+        <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      </joint>
+      <actuator name="module_2_prismatic_module_3_yaw_motor">
+        <mechanicalReduction>1</mechanicalReduction>
+      </actuator>
+    </transmission>
+
+    <transmission name="module_3_yaw_pitch_trans">
+      <type>transmission_interface/SimpleTransmission</type>
+      <joint name="module_3_yaw_pitch_joint">
+        <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      </joint>
+      <actuator name="module_3_yaw_pitch_motor">
+        <mechanicalReduction>1</mechanicalReduction>
+      </actuator>
+    </transmission>
+
+    <transmission name="module_3_pitch_roll_trans">
+      <type>transmission_interface/SimpleTransmission</type>
+      <joint name="module_3_pitch_roll_joint">
+        <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      </joint>
+      <actuator name="module_3_pitch_roll_motor">
+        <mechanicalReduction>1</mechanicalReduction>
+      </actuator>
+    </transmission>
+
+    <transmission name="module_3_roll_prismatic_trans">
+      <type>transmission_interface/SimpleTransmission</type>
+      <joint name="module_3_roll_prismatic_joint">
+        <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      </joint>
+      <actuator name="module_3_roll_prismatic_motor">
+        <mechanicalReduction>1</mechanicalReduction>
+      </actuator>
+    </transmission>
+
+    <transmission name="module_3_prismatic_wrist_pitch_trans">
+      <type>transmission_interface/SimpleTransmission</type>
+      <joint name="module_3_prismatic_wrist_pitch_joint">
+        <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      </joint>
+      <actuator name="module_3_prismatic_wrist_pitch_motor">
+        <mechanicalReduction>1</mechanicalReduction>
+      </actuator>
+    </transmission>
+
+    <transmission name="wrist_pitch_yaw_trans">
+      <type>transmission_interface/SimpleTransmission</type>
+      <joint name="wrist_pitch_yaw_joint">
+        <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      </joint>
+      <actuator name="wrist_pitch_yaw_motor">
+        <mechanicalReduction>1</mechanicalReduction>
+      </actuator>
+    </transmission>
+
+    <transmission name="wrist_yaw_roll_trans">
+      <type>transmission_interface/SimpleTransmission</type>
+      <joint name="wrist_yaw_roll_joint">
+        <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      </joint>
+      <actuator name="wrist_yaw_roll_motor">
+        <mechanicalReduction>1</mechanicalReduction>
+      </actuator>
+    </transmission>
+
+    <transmission name="wrist_roll_finger_trans">
+      <type>transmission_interface/SimpleTransmission</type>
+      <joint name="wrist_roll_finger_joint">
+        <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      </joint>
+      <actuator name="wrist_roll_finger_motor">
+        <mechanicalReduction>1</mechanicalReduction>
+      </actuator>
+    </transmission>
+
+  <!--/xacro:macro-->
+
+</robot>

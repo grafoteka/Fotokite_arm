@@ -1,9 +1,5 @@
 <launch>
 
-    <rosparam file="$(find arm_gazebo)/config/fotokite_7dof.yaml" command="load"/>
-    <node name="fotokite_controller_spawner" pkg="controller_manager" type="controller_manager" respawn="false" output="screen"
-          args="spawn fotokite_controller"/>
-
     <!-- Launch Gazebo -->
     <include file="$(find gazebo_ros)/launch/empty_world.launch">
         <arg name="world_name" value="$(find arm_gazebo)/worlds/empty.world"/>
@@ -14,36 +10,10 @@
         <arg name="debug" value="false"/>
     </include>
 
-    <!-- Load the URDF into ROS parameter server -->
-    <arg name="urdf_file" default="$(find xacro)/xacro '$(find arm_description)/urdf/fotokite_7dof.xacro' --inorder" />
-    <param name="robot_description" command="$(arg urdf_file)" />
+    <!-- Generate/Load robot description file -->
+    <include file="$(find arm_description)/launch/description.launch"/>
 
     <!-- Spawn urdf into Gazebo -->
-    <node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model" args="-param robot_description -urdf -model fotokite" />
-
-
-    <!-- Generate/Load robot description file -->
-    <!--include file="$(find arm_description)/launch/description.launch"/-->    <!-- Solo es Gazebo y el robot -->
-    <!--include file="$(find arm_description)/launch/rviz_one_module.launch"/-->     <!-- Gazebo + robot + rviz -->
-    <!--include file="$(find arm_description)/launch/rviz_two_modules.launch"/-->   <!-- Gazebo + robot + rviz -->
-
-    <!-- Load joint controller configurations from YAML file to parameter server -->
-    <!--rosparam file="$(find arm_gazebo)/config/fotokite_7dof.yaml" command="load"/-->
-
-    <!-- Joint state publisher opens a GUI to manually input joint states -->
-    <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher">
-        <!--param name="use_gui" value="true"/-->
-        <remap from="/joint_states" to="/fotokite/joint_states"/>
-    </node>
-
-    <!-- Robot state publisher -->
-    <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"
-        respawn="false" output="screen">
-    <!--remap from="/joint_states" to="/hexapodo/joint_states" /-->
-    </node>
-
-    <!-- RViz -->
-    <!-- Rviz to vizualize robot -->
-    <!--node name="rviz" pkg="rviz" type="rviz" args="-d '$(find arm_description)/rviz/rrp_uav.rviz'" /-->
+    <node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model" args="-param robot_description -urdf -model arm" />
 
 </launch>

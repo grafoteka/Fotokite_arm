@@ -1,0 +1,123 @@
+<?xml version="1.0" ?>
+<!--This does not replace URDF, and is not an extension of URDF.
+    This is a format for representing semantic information about the robot structure.
+    A URDF file must exist for this robot as well, where the joints and the links that are referenced are defined
+-->
+<robot name="fotokite">
+    <!--GROUPS: Representation of a set of joints and links. This can be useful for specifying DOF to plan for, defining arms, end effectors, etc-->
+    <!--LINKS: When a link is specified, the parent joint of that link (if it exists) is automatically included-->
+    <!--JOINTS: When a joint is specified, the child link of that joint (which will always exist) is automatically included-->
+    <!--CHAINS: When a chain is specified, all the links along the chain (including endpoints) are included in the group. Additionally, all the joints that are parents to included links are also included. This means that joints along the chain and the parent joint of the base link are included in the group-->
+    <!--SUBGROUPS: Groups can also be formed by referencing to already defined group names-->
+    <group name="module_1_group">
+        <joint name="module_1_pitch_roll_joint" />
+        <joint name="module_1_prismatic_module_2_yaw_joint" />
+        <joint name="module_1_roll_prismatic_joint" />
+        <joint name="module_1_yaw_pitch_joint" />
+    </group>
+    <group name="module_2_group">
+        <joint name="module_2_pitch_roll_joint" />
+        <joint name="module_2_prismatic_module_3_yaw_joint" />
+        <joint name="module_2_roll_prismatic_joint" />
+        <joint name="module_2_yaw_pitch_joint" />
+    </group>
+    <group name="module_3_group">
+        <joint name="module_3_pitch_roll_joint" />
+        <joint name="module_3_prismatic_wrist_pitch_joint" />
+        <joint name="module_3_roll_prismatic_joint" />
+        <joint name="module_3_yaw_pitch_joint" />
+    </group>
+    <group name="wrist_group">
+        <joint name="wrist_pitch_yaw_joint" />
+        <joint name="wrist_roll_finger_joint" />
+        <joint name="wrist_yaw_roll_joint" />
+    </group>
+    <group name="fotokite_group">
+        <group name="module_1_group" />
+        <group name="module_2_group" />
+        <group name="module_3_group" />
+        <group name="wrist_group" />
+    </group>
+    <!--PASSIVE JOINT: Purpose: this element is used to mark joints that are not actuated-->
+    <passive_joint name="module_1_yaw_pitch_joint" />
+    <passive_joint name="module_1_pitch_roll_joint" />
+    <passive_joint name="module_1_roll_prismatic_joint" />
+    <passive_joint name="module_1_prismatic_module_2_yaw_joint" />
+    <passive_joint name="module_2_yaw_pitch_joint" />
+    <passive_joint name="module_2_pitch_roll_joint" />
+    <passive_joint name="module_2_roll_prismatic_joint" />
+    <passive_joint name="module_2_prismatic_module_3_yaw_joint" />
+    <passive_joint name="module_3_yaw_pitch_joint" />
+    <passive_joint name="module_3_pitch_roll_joint" />
+    <passive_joint name="module_3_roll_prismatic_joint" />
+    <passive_joint name="module_3_prismatic_wrist_pitch_joint" />
+    <!--DISABLE COLLISIONS: By default it is assumed that any link of the robot could potentially come into collision with any other link in the robot. This tag disables collision checking between a specified pair of links. -->
+    <disable_collisions link1="finger" link2="wrist_pitch" reason="Never" />
+    <disable_collisions link1="finger" link2="wrist_roll" reason="Adjacent" />
+    <disable_collisions link1="module_1_length" link2="module_1_roll" reason="Adjacent" />
+    <disable_collisions link1="module_1_length" link2="module_2_pitch" reason="Never" />
+    <disable_collisions link1="module_1_length" link2="module_2_roll" reason="Never" />
+    <disable_collisions link1="module_1_length" link2="module_2_yaw" reason="Adjacent" />
+    <disable_collisions link1="module_1_length" link2="module_3_length" reason="Never" />
+    <disable_collisions link1="module_1_length" link2="module_3_pitch" reason="Never" />
+    <disable_collisions link1="module_1_length" link2="module_3_roll" reason="Never" />
+    <disable_collisions link1="module_1_length" link2="module_3_yaw" reason="Never" />
+    <disable_collisions link1="module_1_length" link2="wrist_pitch" reason="Never" />
+    <disable_collisions link1="module_1_length" link2="wrist_roll" reason="Never" />
+    <disable_collisions link1="module_1_length" link2="wrist_yaw" reason="Never" />
+    <disable_collisions link1="module_1_pitch" link2="module_1_roll" reason="Adjacent" />
+    <disable_collisions link1="module_1_pitch" link2="module_1_yaw" reason="Adjacent" />
+    <disable_collisions link1="module_1_pitch" link2="module_2_pitch" reason="Never" />
+    <disable_collisions link1="module_1_pitch" link2="module_2_roll" reason="Never" />
+    <disable_collisions link1="module_1_pitch" link2="module_3_length" reason="Never" />
+    <disable_collisions link1="module_1_pitch" link2="module_3_pitch" reason="Never" />
+    <disable_collisions link1="module_1_pitch" link2="module_3_roll" reason="Never" />
+    <disable_collisions link1="module_1_pitch" link2="module_3_yaw" reason="Never" />
+    <disable_collisions link1="module_1_pitch" link2="wrist_pitch" reason="Never" />
+    <disable_collisions link1="module_1_pitch" link2="wrist_roll" reason="Never" />
+    <disable_collisions link1="module_1_pitch" link2="wrist_yaw" reason="Never" />
+    <disable_collisions link1="module_1_roll" link2="module_2_length" reason="Never" />
+    <disable_collisions link1="module_1_roll" link2="module_2_pitch" reason="Never" />
+    <disable_collisions link1="module_1_roll" link2="module_2_roll" reason="Never" />
+    <disable_collisions link1="module_1_roll" link2="module_3_length" reason="Never" />
+    <disable_collisions link1="module_1_roll" link2="module_3_pitch" reason="Never" />
+    <disable_collisions link1="module_1_roll" link2="module_3_roll" reason="Never" />
+    <disable_collisions link1="module_1_roll" link2="module_3_yaw" reason="Never" />
+    <disable_collisions link1="module_1_roll" link2="wrist_pitch" reason="Never" />
+    <disable_collisions link1="module_1_roll" link2="wrist_roll" reason="Never" />
+    <disable_collisions link1="module_1_roll" link2="wrist_yaw" reason="Never" />
+    <disable_collisions link1="module_1_yaw" link2="module_3_pitch" reason="Never" />
+    <disable_collisions link1="module_1_yaw" link2="module_3_roll" reason="Never" />
+    <disable_collisions link1="module_1_yaw" link2="module_3_yaw" reason="Never" />
+    <disable_collisions link1="module_1_yaw" link2="wrist_pitch" reason="Never" />
+    <disable_collisions link1="module_1_yaw" link2="wrist_roll" reason="Never" />
+    <disable_collisions link1="module_1_yaw" link2="wrist_yaw" reason="Never" />
+    <disable_collisions link1="module_2_length" link2="module_2_roll" reason="Adjacent" />
+    <disable_collisions link1="module_2_length" link2="module_3_pitch" reason="Never" />
+    <disable_collisions link1="module_2_length" link2="module_3_roll" reason="Never" />
+    <disable_collisions link1="module_2_length" link2="module_3_yaw" reason="Adjacent" />
+    <disable_collisions link1="module_2_length" link2="wrist_pitch" reason="Never" />
+    <disable_collisions link1="module_2_length" link2="wrist_yaw" reason="Never" />
+    <disable_collisions link1="module_2_pitch" link2="module_2_roll" reason="Adjacent" />
+    <disable_collisions link1="module_2_pitch" link2="module_2_yaw" reason="Adjacent" />
+    <disable_collisions link1="module_2_pitch" link2="module_3_pitch" reason="Never" />
+    <disable_collisions link1="module_2_pitch" link2="module_3_roll" reason="Never" />
+    <disable_collisions link1="module_2_pitch" link2="wrist_pitch" reason="Never" />
+    <disable_collisions link1="module_2_pitch" link2="wrist_roll" reason="Never" />
+    <disable_collisions link1="module_2_pitch" link2="wrist_yaw" reason="Never" />
+    <disable_collisions link1="module_2_roll" link2="module_3_length" reason="Never" />
+    <disable_collisions link1="module_2_roll" link2="module_3_pitch" reason="Never" />
+    <disable_collisions link1="module_2_roll" link2="module_3_roll" reason="Never" />
+    <disable_collisions link1="module_2_roll" link2="module_3_yaw" reason="Never" />
+    <disable_collisions link1="module_2_roll" link2="wrist_pitch" reason="Never" />
+    <disable_collisions link1="module_2_roll" link2="wrist_yaw" reason="Never" />
+    <disable_collisions link1="module_2_yaw" link2="wrist_pitch" reason="Never" />
+    <disable_collisions link1="module_2_yaw" link2="wrist_roll" reason="Never" />
+    <disable_collisions link1="module_2_yaw" link2="wrist_yaw" reason="Never" />
+    <disable_collisions link1="module_3_length" link2="module_3_roll" reason="Adjacent" />
+    <disable_collisions link1="module_3_length" link2="wrist_pitch" reason="Adjacent" />
+    <disable_collisions link1="module_3_pitch" link2="module_3_roll" reason="Adjacent" />
+    <disable_collisions link1="module_3_pitch" link2="module_3_yaw" reason="Adjacent" />
+    <disable_collisions link1="wrist_pitch" link2="wrist_yaw" reason="Adjacent" />
+    <disable_collisions link1="wrist_roll" link2="wrist_yaw" reason="Adjacent" />
+</robot>

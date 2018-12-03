@@ -1,0 +1,89 @@
+fotokite:
+# MoveIt-specific simulation settings
+  moveit_sim_hw_interface:
+    joint_model_group: controllers_initial_group_
+    joint_model_group_pose: controllers_initial_pose_
+# Settings for ros_control control loop
+  generic_hw_control_loop:
+    loop_hz: 300
+    cycle_time_error_threshold: 0.01
+# Settings for ros_control hardware interface
+  hardware_interface:
+    joints:
+      - module_1_yaw_pitch_joint
+      - module_1_pitch_roll_joint
+      - module_1_roll_length_joint
+      - module_1_length_yaw_joint
+      - module_2_yaw_pitch_joint
+      - module_2_pitch_roll_joint
+      - module_2_roll_length_joint
+      - module_2_length_yaw_joint
+      - module_3_yaw_pitch_joint
+      - module_3_pitch_roll_joint
+      - module_3_roll_length_joint
+      - module_3_length_pitch_joint
+      - wrist_pitch_yaw_joint
+      - wrist_yaw_roll_joint
+      - wrist_roll_finger_joint
+    sim_control_mode: 1  # 0: position, 1: velocity
+# Publish all joint states
+# Creates the /joint_states topic necessary in ROS
+  joint_state_controller:
+    type: joint_state_controller/JointStateController
+    publish_rate: 50
+  controller_list:
+    - name: module_1_controller
+      action_ns: follow_joint_trajectory
+      default: True
+      type: FollowJointTrajectory
+      joints:
+        - module_1_yaw_pitch_joint
+        - module_1_pitch_roll_joint
+        - module_1_roll_length_joint
+        - module_1_length_yaw_joint
+    - name: module_2_controller
+      action_ns: follow_joint_trajectory
+      default: True
+      type: FollowJointTrajectory
+      joints:
+        - module_2_yaw_pitch_joint
+        - module_2_pitch_roll_joint
+        - module_2_roll_length_joint
+        - module_2_length_yaw_joint
+    - name: module_3_controller
+      action_ns: follow_joint_trajectory
+      default: True
+      type: FollowJointTrajectory
+      joints:
+        - module_3_yaw_pitch_joint
+        - module_3_pitch_roll_joint
+        - module_3_roll_length_joint
+        - module_3_length_pitch_joint
+    - name: wrist_controller
+      action_ns: follow_joint_trajectory
+      default: True
+      type: FollowJointTrajectory
+      joints:
+        - wrist_pitch_yaw_joint
+        - wrist_yaw_roll_joint
+        - wrist_roll_finger_joint
+    - name: fotokite_group_controller
+      action_ns: follow_joint_trajectory
+      default: True
+      type: FollowJointTrajectory
+      joints:
+        - module_1_yaw_pitch_joint
+        - module_1_pitch_roll_joint
+        - module_1_roll_length_joint
+        - module_1_length_yaw_joint
+        - module_2_yaw_pitch_joint
+        - module_2_pitch_roll_joint
+        - module_2_roll_length_joint
+        - module_2_length_yaw_joint
+        - module_3_yaw_pitch_joint
+        - module_3_pitch_roll_joint
+        - module_3_roll_length_joint
+        - module_3_length_pitch_joint
+        - wrist_pitch_yaw_joint
+        - wrist_yaw_roll_joint
+        - wrist_roll_finger_joint

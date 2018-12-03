@@ -1,0 +1,109 @@
+fotokite:
+  # Publish all joint states -----------------------------------
+  joint_state_controller:
+    type: joint_state_controller/JointStateController
+    publish_rate: 50
+
+  #Trajectory Controllers---------------------------------------
+  #module_1_group:
+  #  type: effort_controllers/JointTrajectoryController
+  #  joints:
+  #    - module_1_yaw_pitch_joint
+  #    - module_1_pitch_roll_joint
+  #    - module_1_roll_prismatic_joint
+  #    - module_1_prismatic_module_2_yaw_joint
+
+  #module_2_group:
+  #  type: effort_controllers/JointTrajectoryController
+  #  joints:
+  #    - module_2_yaw_pitch_joint
+  #    - module_2_pitch_roll_joint
+  #    - module_2_roll_length_joint
+  #    - module_2_prismatic_module_3_yaw_joint
+
+  #module_3_group:
+  #  type: effort_controllers/JointTrajectoryController
+  #  joints:
+  #  - module_3_yaw_pitch_joint
+  #  - module_3_pitch_roll_joint
+  #  - module_3_roll_length_joint
+  #  - module_3_prismatic_wrist_pitch_joint
+
+  #wrist_group_controller:
+  #  type: effort_controllers/JointTrajectoryController
+  #  joints:
+  #    - wrist_pitch_yaw_joint
+  #    - wrist_yaw_roll_joint
+  #    - wrist_roll_finger_joint
+
+  #fotokite_group_controller:
+  #  type: effort_controllers/JointTrajectoryController
+  #  joints:
+  #    - wrist_pitch_yaw_joint
+  #    - wrist_yaw_roll_joint
+  #    - wrist_roll_finger_joint
+
+  # Position Controllers ---------------------------------------
+  module_1_yaw_pitch_position_controller:
+    type: effort_controllers/JointPositionController
+    joint: module_1_yaw_pitch_joint
+    pid: {p: 100.0, i: 0.01, d: 10.0}
+  module_1_pitch_roll_position_controller:
+    type: effort_controllers/JointPositionController
+    joint: module_1_pitch_roll_joint
+    pid: {p: 100.0, i: 0.01, d: 10.0}
+  module_1_roll_length_position_controller:
+    type: effort_controllers/JointPositionController
+    joint: module_1_roll_length_joint
+    pid: {p: 100.0, i: 0.01, d: 10.0}
+  module_1_length_yaw_position_controller:
+  #module_1_prismatic_yaw_position_controller:
+    type: effort_controllers/JointPositionController
+    joint: module_1_length_yaw_joint
+    pid: {p: 100.0, i: 0.01, d: 10.0}
+  module_2_yaw_pitch_position_controller:
+    type: effort_controllers/JointPositionController
+    joint: module_2_yaw_pitch_joint
+    pid: {p: 100.0, i: 0.01, d: 10.0}
+  module_2_pitch_roll_position_controller:
+    type: effort_controllers/JointPositionController
+    joint: module_2_pitch_roll_joint
+    pid: {p: 100.0, i: 0.01, d: 10.0}
+  module_2_roll_length_position_controller:
+    type: effort_controllers/JointPositionController
+    joint: module_2_roll_length_joint
+    pid: {p: 100.0, i: 0.01, d: 10.0}
+  module_2_length_yaw_position_controller:
+  #module_2_length_yaw_position_controller:
+    type: effort_controllers/JointPositionController
+    joint: module_2_length_yaw_joint
+    pid: {p: 100.0, i: 0.01, d: 10.0}
+  module_3_yaw_pitch_position_controller:
+    type: effort_controllers/JointPositionController
+    joint: module_3_yaw_pitch_joint
+    pid: {p: 100.0, i: 0.01, d: 10.0}
+  module_3_pitch_roll_position_controller:
+    type: effort_controllers/JointPositionController
+    joint: module_3_pitch_roll_joint
+    pid: {p: 100.0, i: 0.01, d: 10.0}
+  module_3_roll_length_position_controller:
+    type: effort_controllers/JointPositionController
+    joint: module_3_roll_length_joint
+    pid: {p: 100.0, i: 0.01, d: 10.0}
+  module_3_length_pitch_position_controller:
+  #module_3_length_pitch_position_controller:
+    type: effort_controllers/JointPositionController
+    joint: module_3_length_pitch_joint
+    pid: {p: 100.0, i: 0.01, d: 10.0}
+  wrist_pitch_yaw_position_controller:
+    type: effort_controllers/JointPositionController
+    joint: wrist_pitch_yaw_joint
+    pid: {p: 100.0, i: 0.01, d: 10.0}
+  wrist_yaw_roll_position_controller:
+    type: effort_controllers/JointPositionController
+    joint: wrist_yaw_roll_joint
+    pid: {p: 100.0, i: 0.01, d: 10.0}
+  wrist_roll_finger_position_controller:
+    type: effort_controllers/JointPositionController
+    joint: wrist_roll_finger_joint
+    pid: {p: 100.0, i: 0.01, d: 10.0}

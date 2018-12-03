@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<package format="2">
+    <name>fotokite_description</name>
+    <version>0.0.0</version>
+    <description>
+        The fotokite_description
+    </description>
+
+    <author email="jorge.deleon@upm.es">Jorge De Leon</author>
+    <maintainer email="jorge.deleon@upm.es">Jorge De Leon</maintainer>
+
+    <license>BSD-3</license>
+
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <exec_depend>joint_state_publisher</exec_depend>
+  <exec_depend>robot_state_publisher</exec_depend>
+  <exec_depend>rviz</exec_depend>
+
+</package>

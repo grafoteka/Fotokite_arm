@@ -1,0 +1,41 @@
+controller_list:
+  - name: fake_module_1_group_controller
+    joints:
+      - module_1_yaw_pitch_joint
+      - module_1_pitch_roll_joint
+      - module_1_roll_prismatic_joint
+      - module_1_prismatic_module_2_yaw_joint
+  - name: fake_module_2_group_controller
+    joints:
+      - module_2_yaw_pitch_joint
+      - module_2_pitch_roll_joint
+      - module_2_roll_prismatic_joint
+      - module_2_prismatic_module_3_yaw_joint
+  - name: fake_module_3_group_controller
+    joints:
+      - module_3_yaw_pitch_joint
+      - module_3_pitch_roll_joint
+      - module_3_roll_prismatic_joint
+      - module_3_prismatic_wrist_pitch_joint
+  - name: fake_wrist_group_controller
+    joints:
+      - wrist_pitch_yaw_joint
+      - wrist_yaw_roll_joint
+      - wrist_roll_finger_joint
+  - name: fake_fotokite_group_controller
+    joints:
+      - module_1_yaw_pitch_joint
+      - module_1_pitch_roll_joint
+      - module_1_roll_prismatic_joint
+      - module_1_prismatic_module_2_yaw_joint
+      - module_2_yaw_pitch_joint
+      - module_2_pitch_roll_joint
+      - module_2_roll_prismatic_joint
+      - module_2_prismatic_module_3_yaw_joint
+      - module_3_yaw_pitch_joint
+      - module_3_pitch_roll_joint
+      - module_3_roll_prismatic_joint
+      - module_3_prismatic_wrist_pitch_joint
+      - wrist_pitch_yaw_joint
+      - wrist_yaw_roll_joint
+      - wrist_roll_finger_joint

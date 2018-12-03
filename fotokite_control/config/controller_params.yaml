@@ -1,0 +1,108 @@
+fotokite_position_controllers:
+  joint_state_controller:
+    type: joint_state_controller/JointStateController
+    publish_rate: 50
+
+  module_1_yaw_pitch_position_controller:
+    type: effort_controllers/JointPositionController
+    joint: module_1_yaw_pitch_joint
+    pid: {p: 100.0, i: 0.01, d: 10.0}
+  module_1_pitch_roll_position_controller:
+    type: effort_controllers/JointPositionController
+    joint: module_1_pitch_roll_joint
+    pid: {p: 100.0, i: 0.01, d: 10.0}
+  module_1_roll_length_position_controller:
+    type: effort_controllers/JointPositionController
+    joint: module_1_roll_length_joint
+    pid: {p: 100.0, i: 0.01, d: 10.0}
+  module_1_length_yaw_position_controller:
+    type: effort_controllers/JointPositionController
+    joint: module_1_length_yaw_joint
+    pid: {p: 100.0, i: 0.01, d: 10.0}
+  module_2_yaw_pitch_position_controller:
+    type: effort_controllers/JointPositionController
+    joint: module_2_yaw_pitch_joint
+    pid: {p: 100.0, i: 0.01, d: 10.0}
+  module_2_pitch_roll_position_controller:
+    type: effort_controllers/JointPositionController
+    joint: module_2_pitch_roll_joint
+    pid: {p: 100.0, i: 0.01, d: 10.0}
+  module_2_roll_length_position_controller:
+    type: effort_controllers/JointPositionController
+    joint: module_2_roll_length_joint
+    pid: {p: 100.0, i: 0.01, d: 10.0}
+  module_2_length_yaw_position_controller:
+    type: effort_controllers/JointPositionController
+    joint: module_2_length_yaw_joint
+    pid: {p: 100.0, i: 0.01, d: 10.0}
+  module_3_yaw_pitch_position_controller:
+    type: effort_controllers/JointPositionController
+    joint: module_3_yaw_pitch_joint
+    pid: {p: 100.0, i: 0.01, d: 10.0}
+  module_3_pitch_roll_position_controller:
+    type: effort_controllers/JointPositionController
+    joint: module_3_pitch_roll_joint
+    pid: {p: 100.0, i: 0.01, d: 10.0}
+  module_3_roll_length_position_controller:
+    type: effort_controllers/JointPositionController
+    joint: module_3_roll_length_joint
+    pid: {p: 100.0, i: 0.01, d: 10.0}
+  module_3_length_pitch_position_controller:
+    type: effort_controllers/JointPositionController
+    joint: module_3_length_pitch_joint
+    pid: {p: 100.0, i: 0.01, d: 10.0}
+  wrist_pitch_yaw_position_controller:
+    type: effort_controllers/JointPositionController
+    joint: wrist_pitch_yaw_joint
+    pid: {p: 100.0, i: 0.01, d: 10.0}
+  wrist_yaw_roll_position_controller:
+    type: effort_controllers/JointPositionController
+    joint: wrist_yaw_roll_joint
+    pid: {p: 100.0, i: 0.01, d: 10.0}
+  wrist_roll_finger_position_controller:
+    type: effort_controllers/JointPositionController
+    joint: wrist_roll_finger_joint
+    pid: {p: 100.0, i: 0.01, d: 10.0}
+
+fotokite_controllers:
+  effort_joint_trajectory_controller:
+    type: effort_controllers/JointTrajectoryController
+    joints:
+      - module_1_yaw_pitch_joint
+      - module_1_pitch_roll_joint
+      - module_1_roll_length_joint
+      - module_1_length_yaw_joint
+      - module_2_yaw_pitch_joint
+      - module_2_pitch_roll_joint
+      - module_2_roll_length_joint
+      - module_2_length_yaw_joint
+      - module_3_yaw_pitch_joint
+      - module_3_pitch_roll_joint
+      - module_3_roll_length_joint
+      - module_3_length_pitch_joint
+      - wrist_pitch_yaw_joint
+      - wrist_yaw_roll_joint
+      - wrist_roll_finger_joint
+
+    gains: # Required because we're controlling an effort interface
+      module_1_yaw_pitch_joint: {p: 100,  d: 0.1, i: 0, i_clamp: 1}
+      module_1_pitch_roll_joint: {p: 100,  d: 0.1, i: 0, i_clamp: 1}
+      module_1_roll_length_joint: {p: 100,  d: 0.1, i: 0, i_clamp: 1}
+      module_1_length_yaw_joint: {p: 100,  d: 0.1, i: 0.0, i_clamp: 1}
+      module_2_yaw_pitch_joint: {p: 100,  d: 0.1, i: 0, i_clamp: 1}
+      module_2_pitch_roll_joint: {p: 100,  d: 0.1, i: 0.0, i_clamp: 1}
+      module_2_roll_length_joint: {p: 100,  d: 0.1, i: 0.0, i_clamp: 1}
+      module_2_length_yaw_joint: {p: 100,  d: 0.1, i: 0.0, i_clamp: 1}
+      module_3_yaw_pitch_joint: {p: 100,  d: 0.1, i: 0.0, i_clamp: 1}
+      module_3_pitch_roll_joint: {p: 100,  d: 0.1, i: 0.0, i_clamp: 1}
+      module_3_roll_length_joint: {p: 100,  d: 0.1, i: 0.0, i_clamp: 1}
+      module_3_length_pitch_joint: {p: 100,  d: 0.1, i: 0.0, i_clamp: 1}
+      wrist_pitch_yaw_joint: {p: 100,  d: 0.1, i: 0.0, i_clamp: 1}
+      wrist_yaw_roll_joint: {p: 100,  d: 0.1, i: 0.0, i_clamp: 1}
+      wrist_roll_finger_joint: {p: 100,  d: 0.1, i: 0.0, i_clamp: 1}
+
+    state_publish_rate: 25 # Override default
+
+  joint_state_controller:
+    publish_rate: 50
+    type: joint_state_controller/JointStateController

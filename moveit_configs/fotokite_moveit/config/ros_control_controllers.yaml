@@ -1,0 +1,21 @@
+controller_list:
+  - name: fotokite_controllers/effort_joint_trajectory_controller
+    #action_ns: follow_joint_trajectory
+    type: FollowJointTrajectory
+    default: true
+    joints:
+      - module_1_yaw_pitch_joint
+      - module_1_pitch_roll_joint
+      - module_1_roll_length_joint
+      - module_1_length_yaw_joint
+      - module_2_yaw_pitch_joint
+      - module_2_pitch_roll_joint
+      - module_2_roll_length_joint
+      - module_2_length_yaw_joint
+      - module_3_yaw_pitch_joint
+      - module_3_pitch_roll_joint
+      - module_3_roll_length_joint
+      - module_3_length_pitch_joint
+      - wrist_pitch_yaw_joint
+      - wrist_yaw_roll_joint
+      - wrist_roll_finger_joint
